@@ -15,13 +15,19 @@ class Venue:
             "Soft drink" : 170,
             "Coffee" : 120,
             "Beer" : 60 }
+        self.stock_prices = {
+            "Beef burger" : 15,
+            "Fish & chips" : 15,
+            "Pizza" : 13,
+            "Soft drink" : 4,
+            "Coffee" : 5,
+            "Beer" : 10 }
         
-    def days_count(self):
+    def days_addup(self):
         self.days += 1
     
     def opening_venue(self):
-        CF.clear_screen()
-        tprint(f"DAY {self.days}\n\n", font = "tarty3")
+        CF.show_days()
         sleep(1)
         if self.days == 1:
             CF.typing_animation("Luckily We have received urgent delivery from the supplier today.\n", 0.02)
@@ -29,17 +35,20 @@ class Venue:
         sleep(0.5)
         for name, stock in self.current_stocks.items():
             print(f"{name} : {stock} ea\n")
+            sleep(0.2)
         sleep(1)
-        CF.typing_animation("\n\nI think we're ready to open.\n\n", 0.02)
-        CF.enter_to_cont()
+        CF.ready()
+        CF.show_days()
         CF.round()
+        CF.count_hours()
+        assist_m.daily_report()
 venue = Venue()
 
 class Customers:
     def __init__(self):
         self.customers_number = 350  # Level can be applied
         self.happiness = 100
-    pass
+    
 customers = Customers()
 
 class Staffs:
@@ -57,21 +66,30 @@ class Assist_M(Staffs):
         sleep(0.5)
         CF.typing_animation("As you know, We have hired new staff recently. They're working fine but it would be better if we have a good captain to lead.\n", 0.02)
         sleep(0.5)
-        CF.typing_animation("Your job is \n\n" + CS.color.BOLD + "  to let me know what to order for the next day service and \n\n  give orders to staff when situation happens.\n" + CS.color.END, 0.02)
+        CF.typing_animation("\nYour job is \n\n" + CS.color.BOLD + "  to let me know what to order for the next day service and \n\n  give orders to staff when situation happens.\n" + CS.color.END, 0.02)
         sleep(0.5)
-        CF.typing_animation("But remember, You'll lose if you\n\n" + CS.color.BOLD + "  lose half of budget or \n\n  lose Customers Satisfaction till 60% \n" + CS.color.END, 0.02)
+        CF.typing_animation("\nBut remember, You'll lose if you\n\n" + CS.color.BOLD + "  lose half of budget or \n\n  lose Customers Satisfaction till 60% \n" + CS.color.END, 0.02)
         sleep(0.5)
-        CF.typing_animation("I'm always here to assist you, give you tips and my opinions.\n", 0.02)
+        CF.typing_animation("\nI'm always here to assist you, give you tips and my opinions.\n", 0.02)
         sleep(0.5)
-        CF.typing_animation("Good luck! :)\n", 0.02)
+        CF.typing_animation("Good luck! :)\n\n", 0.02)
+        sleep(1)
         CF.enter_to_cont()
         venue.opening_venue()
         
+    def daily_report(self):
+        CF.clear_screen()
+        tprint(f"DAY {venue.days}\n\n", font = "tarty3")
+        print("Daily Report : ")
+        sleep(1)
+        # if 
+        CF.typing_animation("\n\nIt was tough day!\n", 0.02) 
+        pass
 
     def place_orders(self):
         
         pass
-
+assist_m = Assist_M()
 
 class Player:
     pass

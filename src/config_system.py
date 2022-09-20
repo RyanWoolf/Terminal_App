@@ -36,8 +36,7 @@ class System:
 class New_Game:
     def __init__(self):
         CF.clear_screen()
-        self.assis_m = CC.Assist_M()
-        self.assis_m.greetings_00()
+        CC.assist_m.greetings_00()
         
 
 
