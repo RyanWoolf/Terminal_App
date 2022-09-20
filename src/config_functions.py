@@ -7,6 +7,9 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
     # os.system('resize -s 208 70')
     # os.system('mode, con: cols=208 lines=70')
+    
+def enter_to_cont():
+    input("Please enter to continue")
 
 def typing_animation(text, speed):
     for letter in text:
@@ -27,3 +30,6 @@ def input_check():
             return int(select)
         else:
             print(CS.color.RED + "Please enter the right number\n" + CS.color.END)
+
+def round():
+    
