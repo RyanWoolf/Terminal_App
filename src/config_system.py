@@ -1,5 +1,20 @@
 from art import * 
+from time import sleep
 import config_functions as CF
+import config_characters as CC
+
+class bold_color:           # Quick access for Text colors 
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
+color = bold_color()
 
 
 class System:
@@ -12,11 +27,18 @@ class System:
         print(f"{self.title}")
         print(f"{self.sub_title}")
         print("\n1. New Game \n\n2. Resume Game\n\n")
-        CF.input_check(next)
+        selection = CF.input_check()
+        if selection == 1:
+            self.game_mode = New_Game()
+        elif selection == 2:
+            self.game_mode = Resume_Game()
 
 class New_Game:
     def __init__(self):
-        pass
+        CF.clear_screen()
+        self.assis_m = CC.Assist_M()
+        self.assis_m.greetings()
+        
 
 
 class Resume_Game:
