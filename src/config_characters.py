@@ -1,10 +1,10 @@
 from art import *
+from time import sleep
 import config_system as CS
 import config_functions as CF
-from time import sleep
+
 
 class Venue:
-
     def __init__(self):
         self.budgets = 10000
         self.days = 1
@@ -18,18 +18,33 @@ class Venue:
         
     def days_count(self):
         self.days += 1
-
+    
+    def opening_venue(self):
+        CF.clear_screen()
+        tprint(f"DAY {self.days}\n\n", font = "tarty3")
+        sleep(1)
+        if self.days == 1:
+            CF.typing_animation("Luckily We have received urgent delivery from the supplier today.\n", 0.02)
+            CF.typing_animation("We got \n", 0.02)
+        sleep(0.5)
+        for name, stock in self.current_stocks.items():
+            print(f"{name} : {stock} ea\n")
+        sleep(1)
+        CF.typing_animation("\n\nI think we're ready to open.\n\n", 0.02)
+        CF.enter_to_cont()
+        CF.round()
+venue = Venue()
 
 class Customers:
     def __init__(self):
+        self.customers_number = 350  # Level can be applied
         self.happiness = 100
-
     pass
-
+customers = Customers()
 
 class Staffs:
     pass
-
+staffs = Staffs()
 
 class Assist_M(Staffs):
     def __init__(self):
@@ -50,28 +65,8 @@ class Assist_M(Staffs):
         sleep(0.5)
         CF.typing_animation("Good luck! :)\n", 0.02)
         CF.enter_to_cont()
-        self.opening_venue()
+        venue.opening_venue()
         
-
-    def opening_venue(self):
-        CF.clear_screen()
-        tprint(f"DAY {Venue.days}\n\n", font = "tarty3")
-        if Venue.days == 1:
-            CF.typing_animation("Luckily We have received urgent delivery from the supplier today.\n", 0.02)
-            CF.typing_animation("We got \n", 0.02)
-        for name, stock in Venue.current_stocks.items():
-            print(f"{name} : {stock} ea\n")
-        sleep(1)
-        CF.typing_animation("\n\nI think we're ready to open.\n\n", 0.02)
-        CF.enter_to_cont()
-
-
-        
-
-        
-              
-
-
 
     def place_orders(self):
         
