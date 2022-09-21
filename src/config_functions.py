@@ -76,6 +76,8 @@ def rule_explain():
     sleep(0.5)
     typing_animation("\nI'm always here to assist you, give you tips and my opinions.\n", 0.02)
     sleep(0.5)
+    typing_animation("\nand remember, Whenever you hit " + CS.color.BLUE + "Ctrl + C" + CS.color.END + ", You can exit the game.\n", 0.02)
+    sleep(0.5)
     typing_animation("Good luck! :)\n\n", 0.02)
     sleep(1)
     enter_to_cont()
@@ -162,10 +164,10 @@ def daily_report_scripts():
         sleep(0.5) 
         typing_animation("But it seems like we need to do something to make it better.\n", 0.02)
     sleep(1)
-    print("\nWe earned " + CS.color.YELLOW + f"$ {CC.venue.budgets - CC.venue.budgets_yesterday}" + CS.color.END + " today, Current balance is " + CS.color.YELLOW + f"$ {CC.venue.budgets}" + CS.color.END)
+    print("\nWe earned $ " + CS.color.YELLOW + f"{CC.venue.budgets - CC.venue.budgets_yesterday}" + CS.color.END + " today, Current balance is $ " + CS.color.YELLOW + f"{CC.venue.budgets}" + CS.color.END)
     CC.venue.budgets_yesterday = CC.venue.budgets
     sleep(1)
-    print("\nAnd, Todays our customers happiness is " + CS.color.YELLOW + f"{CC.customers.happiness:.2f} % " + CS.color.END)
+    print("\nAnd, Todays our customers happiness is " + CS.color.YELLOW + f"{CC.customers.happiness:.2f} " + CS.color.END + "%")
     CC.customers.happiness_yesterday = CC.customers.happiness
     sleep(2)
 
@@ -176,7 +178,15 @@ def wastage_check():
     sleep(1)
     print_current_stocks()
     sleep(1)
-
+    num_wastage = 0
+    price_wastage = 0
+    for menu, stock in CC.venue.current_stocks.items():
+        num_wastage += stock
+        price_wastage += CC.venue.stock_prices[menu] * stock
+    if num_wastage > 50:
+        typing_animation(f"\nWe have {num_wastage} ea wastage today. That was $ " + CS.color.BLUE + f"{price_wastage:.2f}" + CS.color.END + " worths. \n\nI think we need to be careful on next stocks.", 0.02)
+    elif num_wastage < 50:
+        typing_animation(f"\nWe have $ " + CS.color.BLUE + f"{price_wastage:.2f}" + CS.color.END + " worths of loss today.", 0.02)
     typing_animation("\nWe don't use the stock again. We'll dicard them and replace to fresh ones.\n", 0.02)
     sleep(1)
     typing_animation("\nPlease let me know the stock orders for tomorrow service.\n", 0.02)
@@ -194,7 +204,7 @@ def print_current_stocks():
 
 def closing_venue():
     show_days()
-    typing_animation("\n\nThe orders have been placed. THey'll be deliverd over the night.", 0.02)
+    typing_animation("\n\nThe orders have been placed. They'll be deliverd over the night.", 0.02)
     sleep(1)
     typing_animation("\n\nI'll see you tomorrow. :) \n\n", 0.02)
     sleep(1)
@@ -208,7 +218,7 @@ def place_order():
     sleep(1)
     for name in CC.venue.current_stocks.keys():
         while True:
-            units = input(name + " is $ " + f"{CC.venue.supplier_prices[name]:.2f}" + " : How many units to order?  ")
+            units = input(name + " is $ " + CS.color.BLUE + f"{CC.venue.supplier_prices[name]:.2f}" + CS.color.END + f". How many units to order? Yeseterday : {CC.venue.yesterday_stocks[name]} ea / Today : ")
             try:
                 CC.venue.current_stocks.update({name : int(units)})
                 payments_due += int(units) * CC.venue.supplier_prices[name]
@@ -221,7 +231,7 @@ def place_order():
     sleep(0.5)
     print("\n\nThe below is order for tomorrow.\n\n")
     print_current_stocks()
-    print(f"\n\nThe total payments due is $ {payments_due:.2f} and the daily wage for staffs is $ {CC.venue.daily_staffs_wage:.2f}\n\n")
+    print(f"\n\nThe total payments due is $ " + CS.color.YELLOW + f"{payments_due:.2f}" + CS.color.END + "and the daily wage for staffs is $ " + CS.color.YELLOW + f"{CC.venue.daily_staffs_wage:.2f}\n\n" + CS.color.END)
     if payments_due + CC.venue.daily_staffs_wage > CC.venue.budgets:
         print(CS.color.RED + "It's over your current balance. Please change the amount of order.\n\n" + CS.color.END)
         sleep(1)

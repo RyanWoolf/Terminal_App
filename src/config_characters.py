@@ -19,6 +19,7 @@ class Venue:
             "Soft drink" : 170,
             "Coffee" : 120,
             "Beer" : 60 }
+        self.yesterday_stocks = self.current_stocks
         self.stock_prices = {
             "Beef burger" : 15,
             "Fish & chips" : 15,
@@ -35,6 +36,7 @@ class Venue:
             "Beer" : 5 }
         self.daily_staffs_wage = 1500
         
+        
     def days_addup(self):
         self.days += 1
     
@@ -43,6 +45,7 @@ class Venue:
         CF.show_days()
         CF.morning_briefing()
         CF.show_days()
+        self.yesterday_stocks = self.current_stocks
         CF.round()
         CF.count_hours()
         assist_m.daily_report()
@@ -73,7 +76,7 @@ class Assist_M(Staffs):
         pass
 
     def greetings_00(self):
-        
+        CF.rule_explain()
         venue.opening_venue()
         
     def daily_report(self):
