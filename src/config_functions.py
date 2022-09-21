@@ -39,55 +39,26 @@ def show_days():
 def ready():
     typing_animation("\n\nWe're ready to open.\n\n", 0.02)
     enter_to_cont()
+    
 
 def round():
     for customer in range(CC.customers.customers_number):
-        menu_choice = random.randint(1, 100)
-        if menu_choice > 55: # Level can be applied
-            CC.venue.current_stocks["Beef burger"] -= 1
-            CC.venue.budgets += CC.venue.stock_prices["Beef burger"]
-            if CC.venue.current_stocks["Beef burger"] < 0:
-                CC.customers.happiness -= 0.5
-                CC.venue.current_stocks["Beef burger"] = 0
-                CC.venue.budgets -= CC.venue.stock_prices["Beef burger"]
-        elif 30 < menu_choice <= 55:
-            CC.venue.current_stocks["Fish & chips"] -= 1
-            CC.venue.budgets += CC.venue.stock_prices["Fish & chips"]
-            if CC.venue.current_stocks["Fish & chips"] < 0:
-                CC.customers.happiness -= 0.5
-                CC.venue.current_stocks["Fish & chips"] = 0
-                CC.venue.budgets -= CC.venue.stock_prices["Fish & chips"]
-        else:
-            CC.venue.current_stocks["Pizza"] -= 1
-            CC.venue.budgets += CC.venue.stock_prices["Pizza"]
-            if CC.venue.current_stocks["Pizza"] < 0:
-                CC.customers.happiness -= 0.5
-                CC.venue.current_stocks["Pizza"] = 0
-                CC.venue.budgets -= CC.venue.stock_prices["Pizza"]
-    for customer in range(CC.customers.customers_number):
-        drink_choice = random.randint(1, 100)
-        if drink_choice > 55: # Level can be applied
-            CC.venue.current_stocks["Soft drink"] -= 1
-            CC.venue.budgets += CC.venue.stock_prices["Soft drink"]
-            if CC.venue.current_stocks["Soft drink"] < 0:
-                CC.customers.happiness -= 0.5
-                CC.venue.current_stocks["Soft drink"] = 0
-                CC.venue.budgets -= CC.venue.stock_prices["Soft drink"]
-        elif 20 < drink_choice <= 55:
-            CC.venue.current_stocks["Coffee"] -= 1
-            CC.venue.budgets += CC.venue.stock_prices["Coffee"]
-            if CC.venue.current_stocks["Coffee"] < 0:
-                CC.customers.happiness -= 0.5
-                CC.venue.current_stocks["Coffee"] = 0
-                CC.venue.budgets -= CC.venue.stock_prices["Coffee"]
-        else:
-            CC.venue.current_stocks["Beer"] -= 1
-            CC.venue.budgets += CC.venue.stock_prices["Beer"]
-            if CC.venue.current_stocks["Beer"] < 0:
-                CC.customers.happiness -= 0.5
-                CC.venue.current_stocks["Beer"] = 0
-                CC.venue.budgets -= CC.venue.stock_prices["Beer"]
-
+        food_choice, drink_choice = random.choice(CC.venue.list_foods), random.choice(CC.venue.list_drinks)
+        CC.venue.current_stocks[food_choice] -= 1
+        CC.venue.current_stocks[drink_choice] -= 1
+        CC.venue.budgets += CC.venue.stock_prices[food_choice] + CC.venue.stock_prices[drink_choice]
+        CC.customers.happiness += 0.2
+        if CC.venue.current_stocks[food_choice] < 0:
+            CC.customers.happiness -= 0.6
+            CC.venue.current_stocks[food_choice] = 0
+            CC.venue.budgets -= CC.venue.stock_prices[food_choice]
+        if CC.venue.current_stocks[drink_choice] < 0:
+            CC.customers.happiness -= 0.6
+            CC.venue.current_stocks[drink_choice] = 0
+            CC.venue.budgets -= CC.venue.stock_prices[drink_choice]
+        if CC.customers.happiness > 100:
+            CC.customers.happiness = 100
+      
 def count_hours():
     for time in range(9, 16):
         if time < 12:
@@ -103,3 +74,17 @@ def count_hours():
     typing_animation("\n\nI'll go get the daily report.\n\n", 0.02)
     sleep(1)
     enter_to_cont()
+
+def daily_report_scripts():
+    if CC.customers.happiness > 90:
+        typing_animation("\n\nIt was great day!\n", 0.02)
+        sleep(0.5) 
+        typing_animation("I think our customers were super happy today!\n", 0.02) 
+    elif 80 < CC.customers.happiness < 91:
+        typing_animation("\n\nIt was good day!\n", 0.02)
+        sleep(0.5) 
+        typing_animation("We did good job generally.\n", 0.02)
+    else:
+        typing_animation("\n\nIt wasn't bad day.\n", 0.02)
+        sleep(0.5) 
+        typing_animation("But it seems like we need to do something to make it better.\n", 0.02)

@@ -7,7 +7,10 @@ import config_functions as CF
 class Venue:
     def __init__(self):
         self.budgets = 10000
+        self.budgets_yesterday = self.budgets
         self.days = 1
+        self.list_foods = ["Beef burger", "Beef burger", "Beef burger", "Fish & chips", "Fish & chips", "Pizza", "Pizza"]
+        self.list_drinks = ["Soft drink", "Soft drink", "Soft drink", "Coffee", "Coffee", "Beer"]
         self.current_stocks = {
             "Beef burger" : 150,
             "Fish & chips" : 100,
@@ -28,10 +31,11 @@ class Venue:
     
     def opening_venue(self):
         CF.show_days()
+        self.budgets_yesterday = self.budgets
         sleep(1)
         if self.days == 1:
-            CF.typing_animation("Luckily We have received urgent delivery from the supplier today.\n", 0.02)
-            CF.typing_animation("We got \n", 0.02)
+            CF.typing_animation("Luckily We have received urgent delivery from the supplier early morning.\n", 0.02)
+        CF.typing_animation("Today, We got \n", 0.02)
         sleep(0.5)
         for name, stock in self.current_stocks.items():
             print(f"{name} : {stock} ea\n")
@@ -68,7 +72,7 @@ class Assist_M(Staffs):
         sleep(0.5)
         CF.typing_animation("\nYour job is \n\n" + CS.color.BOLD + "  to let me know what to order for the next day service and \n\n  give orders to staff when situation happens.\n" + CS.color.END, 0.02)
         sleep(0.5)
-        CF.typing_animation("\nBut remember, You'll lose if you\n\n" + CS.color.BOLD + "  lose half of budget or \n\n  lose Customers Satisfaction till 60% \n" + CS.color.END, 0.02)
+        CF.typing_animation("\nBut remember, You'll lose if you\n\n" + CS.color.BOLD + "  lose budget till $5000 or \n\n  lose Customers Satisfaction till 60% \n" + CS.color.END, 0.02)
         sleep(0.5)
         CF.typing_animation("\nI'm always here to assist you, give you tips and my opinions.\n", 0.02)
         sleep(0.5)
@@ -82,9 +86,15 @@ class Assist_M(Staffs):
         tprint(f"DAY {venue.days}\n\n", font = "tarty3")
         print("Daily Report : ")
         sleep(1)
-        # if 
-        CF.typing_animation("\n\nIt was tough day!\n", 0.02) 
-        pass
+        CF.daily_report_scripts()
+        sleep(1)
+        print(f"We earned $ {venue.budgets - venue.budgets_yesterday} today,")
+        sleep(0.5)
+        print(f"Current Balance is $ {venue.budgets}")
+        sleep(1)
+        print(f"And, current our customers happiness is {customers.happiness:.2f} % ")
+        sleep(1)
+        CF.typing_animation("")
 
     def place_orders(self):
         
