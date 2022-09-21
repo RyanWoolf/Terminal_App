@@ -25,33 +25,54 @@ class Venue:
             "Soft drink" : 4,
             "Coffee" : 5,
             "Beer" : 10 }
+        self.supplier_prices = {
+            "Beef burger" : 7,
+            "Fish & chips" : 6,
+            "Pizza" : 5,
+            "Soft drink" : 2,
+            "Coffee" : 3,
+            "Beer" : 5 }
+        self.daily_staffs_wage = 1500
         
     def days_addup(self):
         self.days += 1
     
     def opening_venue(self):
-        CF.show_days()
+        CF.good_morning()
+        sleep(2)
         self.budgets_yesterday = self.budgets
+        customers.happiness_yesterday = customers.happiness
+        CF.show_days()
         sleep(1)
         if self.days == 1:
             CF.typing_animation("Luckily We have received urgent delivery from the supplier early morning.\n", 0.02)
-        CF.typing_animation("Today, We got \n", 0.02)
+        CF.typing_animation("\nToday, We got \n\n", 0.02)
         sleep(0.5)
-        for name, stock in self.current_stocks.items():
-            print(f"{name} : {stock} ea\n")
-            sleep(0.2)
+        CF.print_current_stocks()
         sleep(1)
         CF.ready()
         CF.show_days()
         CF.round()
         CF.count_hours()
         assist_m.daily_report()
+    
+    def closing_venue(self):
+        CF.closing_venue()
+        CF.good_night()
+        sleep(2)
+        CF.enter_to_cont()
+        venue.days_addup()
+        venue.opening_venue()
+        
+
+
 venue = Venue()
 
 class Customers:
     def __init__(self):
         self.customers_number = 350  # Level can be applied
         self.happiness = 100
+        self.happiness_yesterday = self.happiness
     
 customers = Customers()
 
@@ -70,9 +91,9 @@ class Assist_M(Staffs):
         sleep(0.5)
         CF.typing_animation("As you know, We have hired new staff recently. They're working fine but it would be better if we have a good captain to lead.\n", 0.02)
         sleep(0.5)
-        CF.typing_animation("\nYour job is \n\n" + CS.color.BOLD + "  to let me know what to order for the next day service and \n\n  give orders to staff when situation happens.\n" + CS.color.END, 0.02)
+        CF.typing_animation("\nYour job is \n\n" + CS.color.YELLOW + "  to let me know what to order for the next day service and \n\n  give orders to staff when situation happens.\n" + CS.color.END, 0.02)
         sleep(0.5)
-        CF.typing_animation("\nBut remember, You'll lose if you\n\n" + CS.color.BOLD + "  lose budget till $5000 or \n\n  lose Customers Satisfaction till 60% \n" + CS.color.END, 0.02)
+        CF.typing_animation("\nBut remember, You'll lose if you\n\n" + CS.color.RED + "  lose budget till $5000 or \n\n  lose Customers Satisfaction till 60% \n" + CS.color.END, 0.02)
         sleep(0.5)
         CF.typing_animation("\nI'm always here to assist you, give you tips and my opinions.\n", 0.02)
         sleep(0.5)
@@ -82,21 +103,35 @@ class Assist_M(Staffs):
         venue.opening_venue()
         
     def daily_report(self):
-        CF.clear_screen()
-        tprint(f"DAY {venue.days}\n\n", font = "tarty3")
+        CF.show_days()
         print("Daily Report : ")
         sleep(1)
         CF.daily_report_scripts()
         sleep(1)
-        print(f"We earned $ {venue.budgets - venue.budgets_yesterday} today,")
-        sleep(0.5)
-        print(f"Current Balance is $ {venue.budgets}")
+        print("\nWe earned " + CS.color.YELLOW + f"$ {venue.budgets - venue.budgets_yesterday}" + CS.color.END + " today, Current balance is " + CS.color.YELLOW + f"$ {venue.budgets}" + CS.color.END)
         sleep(1)
-        print(f"And, current our customers happiness is {customers.happiness:.2f} % ")
+        print("\nAnd, Todays our customers happiness is " + CS.color.YELLOW + f"{customers.happiness:.2f} % " + CS.color.END)
+        sleep(2)
+        CF.typing_animation("\n\nChecking the stocks left ...\n\n", 0.02)
         sleep(1)
-        CF.typing_animation("")
+        CF.print_current_stocks()
+        sleep(1)
+        CF.typing_animation("\nWe don't use the stock again. We'll dicard them and replace to fresh ones.\n", 0.02)
+        sleep(1)
+        CF.typing_animation("\nPlease let me know the stock orders for tomorrow service.\n", 0.02)
+        sleep(1)
+        CF.enter_to_cont()
+        assist_m.place_orders()
+
 
     def place_orders(self):
+        CF.show_days()
+        print("Order list : \n\n")
+        sleep(1)
+        CF.order_list()
+
+
+        
         
         pass
 assist_m = Assist_M()

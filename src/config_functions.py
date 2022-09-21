@@ -35,6 +35,15 @@ def input_check():
 def show_days():
     clear_screen()
     tprint(f"DAY {CC.venue.days}\n\n", font = "tarty3")
+    print(f"Current Balance : $ {CC.venue.budgets_yesterday}  |  Customers Happiness : {CC.customers.happiness_yesterday:.2f} %\n\n")
+
+def good_morning():
+    clear_screen()
+    tprint("Good Morning", font = "tarty9")
+
+def good_night():
+    clear_screen()
+    tprint("Good Night\n\n", font = "tarty9")
 
 def ready():
     typing_animation("\n\nWe're ready to open.\n\n", 0.02)
@@ -88,3 +97,54 @@ def daily_report_scripts():
         typing_animation("\n\nIt wasn't bad day.\n", 0.02)
         sleep(0.5) 
         typing_animation("But it seems like we need to do something to make it better.\n", 0.02)
+
+def print_current_stocks():
+    for name, stock in CC.venue.current_stocks.items():
+        print(f"    {name} : {stock} ea\n")
+        sleep(0.2)
+
+def closing_venue():
+    show_days()
+    typing_animation("\n\nThe orders have been placed. THey'll be deliverd over the night.", 0.02)
+    sleep(1)
+    typing_animation("\n\nI'll see you tomorrow. :) \n\n", 0.02)
+    sleep(1)
+    enter_to_cont()
+
+
+
+def order_list():
+    payments_due = 0
+    for name in CC.venue.current_stocks.keys():
+        while True:
+            units = input(name + " is $ " + f"{CC.venue.supplier_prices[name]}" + " : How many units to order?  ")
+            try:
+                CC.venue.current_stocks.update({name : int(units)})
+                payments_due += int(units) * CC.venue.supplier_prices[name]
+            except ValueError:
+                print(CS.color.RED + "Please enter the right number\n" + CS.color.END)
+                continue
+            finally:
+                print("")
+            break
+    sleep(0.5)
+    print("\n\nThe below is order for tomorrow.\n\n")
+    print_current_stocks()
+    print(f"\n\nThe total payments due is $ {payments_due}\n\n")
+    print("Is it correct?\n\n   1) Yes\n   2) No\n")
+    selection = input_check()
+    if selection == 1:
+        print(f"\n\nYou have paid $ {payments_due} for the orders and $ {CC.venue.daily_staffs_wage} for daily wages.\n\n")
+        CC.venue.budgets -= (payments_due + CC.venue.daily_staffs_wage)
+        sleep(2)
+        enter_to_cont()        
+        CC.venue.closing_venue()
+    elif selection == 2:
+        CC.assist_m.place_orders()
+
+
+
+
+            
+
+            
