@@ -67,7 +67,7 @@ venue = Venue()
 
 class Customers:
     def __init__(self):
-        self.customers_number = 350  # Level can be applied
+        self.customers_number = 350
         self.happiness = 100
         self.happiness_yesterday = self.happiness
 
@@ -92,6 +92,7 @@ class Assist_M(Staffs):
     def daily_report(self):
         CF.show_days()
         CF.daily_report_scripts()
+        CS.main_story.check_passed()
         CF.wastage_check()
         assist_m.place_orders()
 
@@ -99,7 +100,8 @@ class Assist_M(Staffs):
         CF.show_days()
         CF.bad_news()
         CF.place_order()
-    
+        CS.main_story.check_passed()
+
     def tell_news(self):
         if self.bad_news is True:
             venue.price_adj = 1.15
@@ -107,6 +109,3 @@ class Assist_M(Staffs):
             venue.price_adj = 1
 
 assist_m = Assist_M()
-
-class Player:
-    pass

@@ -7,8 +7,8 @@ import config_characters as CC
 CF.clear_screen()
 if __name__ == '__main__':
     try:
-        main_story = CS.System()
-        main_story.select()
+        CS.main_story.greetings()
+        CS.main_story.select()
     
     except KeyboardInterrupt:
         CF.clear_screen()

@@ -37,6 +37,29 @@ def input_check():
             print(CS.color.RED + "Please enter the right number\n" + CS.color.END)
 
 
+def checking_rules():
+    if CC.venue.budgets < 5000 or CC.customers.happiness < 60:
+        show_days()
+        tprint("\n\nGAME OVER\n\n", font = "tarty1")
+        print(f"Failed on Day {CC.venue.days}\n\n\n")
+        if CC.venue.budgets < 5000:
+            print(
+                "I'm sorry, Our budget is now under $ " +
+                CS.color.RED + "5000." + CS.color.END)
+        elif CC.customers.happiness < 60:
+            print(
+                "I'm sorry, Our customers happiness is now under " +
+                CS.color.RED + "60" + CS.color.END + " %")
+        print('''\nThe owner has decided to close down the venue. I guess it was our best.\n\n''')
+        sleep(1)
+        print("\nDo you want to try again? \n\n")
+        CS.main_story.select()
+    else:
+        pass
+
+
+
+
 
 def show_days():
     clear_screen()
@@ -102,7 +125,7 @@ def rule_explain():
 
 def good_morning():
     show_days()
-    tprint("Good Morning", font = "tarty9")
+    tprint("Good Morning", font = "tarty1")
     sleep(2)
 
 
@@ -113,6 +136,7 @@ def morning_briefing():
         '''Luckily We have received urgent delivery from the supplier early morning.
         ''', 0.02)
     CC.assist_m.bad_news = False
+    CC.assist_m.tell_news()
     typing_animation("\nToday, We got \n\n", 0.02)
     sleep(0.5)
     print_current_stocks()
@@ -124,7 +148,7 @@ def morning_briefing():
 
 def good_night():
     show_days()
-    tprint("Good Night\n\n", font = "tarty9")
+    tprint("Good Night\n\n", font = "tarty1")
     sleep(1)
     enter_to_cont()
 
@@ -191,6 +215,9 @@ def daily_report_scripts():
         typing_animation("But it seems like we need to do something to make it better.\n", 0.02)
     sleep(1)
     gross_sales = CC.venue.budgets - CC.venue.budgets_yesterday
+    actual_number = int(CC.customers.customers_number // 1)
+    print(
+        f'''\nWe served {actual_number} customers through the service. Pretty big number.\n''')
     print(
         "\nWe earned $ " + CS.color.YELLOW + f"{gross_sales}" + CS.color.END + " today," +
         "Current balance is $ " + CS.color.YELLOW + f"{CC.venue.budgets}" + CS.color.END)
