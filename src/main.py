@@ -1,13 +1,14 @@
+from art import *
 import config_system as CS
 import config_functions as CF
 import config_characters as CC
-from art import *
+
 
 CF.clear_screen()
 if __name__ == '__main__':
     try:
         main_story = CS.System()
-        main_story.start()
+        main_story.select()
     
     except KeyboardInterrupt:
         CF.clear_screen()

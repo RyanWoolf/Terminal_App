@@ -1,9 +1,7 @@
-import random
+print(f''' this is the test of long text. does it work? 
 
-list_foods = ["Beef burger", "Beef burger", "Beef burger", "Fish & chips", "Fish & chips", "Pizza", "Pizza"]
-list_drinks = ["Soft drink", "Soft drink", "Soft drink", "Coffee", "Coffee", "Beer"]
+does it mean i have to update the entire script codes? 
 
+i wish i find better way to fix it..''')
 
-a = [5 , 8, 10]
-a[0]-= 1
-a[1] -= 1
+print("hahaha does it work?")
