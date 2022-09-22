@@ -112,6 +112,7 @@ def morning_briefing():
         typing_animation(
         '''Luckily We have received urgent delivery from the supplier early morning.
         ''', 0.02)
+    CC.assist_m.bad_news = False
     typing_animation("\nToday, We got \n\n", 0.02)
     sleep(0.5)
     print_current_stocks()
@@ -253,26 +254,37 @@ def closing_venue():
     sleep(1)
     enter_to_cont()
 
-# def bad_news():
-#     chance = random.randint(0, 100)
-#     if chance > 90:
+def bad_news():
+    chance = random.randint(0, 100)
+    if chance > 90:
+        typing_animation(
+            ''' I have a bad new from the supplier. Due to the bad weather condition,\n
+            their cargo truck couldn't arrive yet.\n
+            They said they can't help but increase the supplier price for today.\n\n''' +
+            CS.color.RED + "15" + CS.color.END + " % today.", 0.02)
+        CC.assist_m.bad_news = True
+        enter_to_cont()
+
+    
+
         
 
 
 def place_order():
     payments_due = 0
+    adj = CC.venue.price_adj
     print("Order list : \n\n")
     sleep(1)
     for name in CC.venue.current_stocks.keys():
         while True:
             units = input(
                 name + " is $ " +
-                CS.color.BLUE + f"{CC.venue.supplier_prices[name]:.2f}" + CS.color.END +
+                CS.color.BLUE + f"{adj*CC.venue.supplier_prices[name]:.2f}" + CS.color.END +
                 ". How many units to order? Yeseterday : " +
                 f"{CC.venue.yesterday_stocks[name]} ea / Today : ")
             try:
                 CC.venue.current_stocks.update({name : int(units)})
-                payments_due += int(units)*CC.venue.supplier_prices[name]
+                payments_due += int(units)*CC.venue.supplier_prices[name]*adj
             except ValueError:
                 print(CS.color.RED + "Please enter the right number\n" + CS.color.END)
                 continue
