@@ -138,7 +138,7 @@ def copy_order_history():
 def game_round():
     copy_order_history()
     difficulty = CC.venue.difficulty
-    for customer in range(CC.customers.customers_number):
+    for customer in range(int(CC.customers.customers_number // 1)):
         food, drink = random.choice(CC.venue.list_foods), random.choice(CC.venue.list_drinks)
         CC.venue.current_stocks[food] -= 1
         CC.venue.current_stocks[drink] -= 1
@@ -258,16 +258,16 @@ def bad_news():
     chance = random.randint(0, 100)
     if chance > 90:
         typing_animation(
-            ''' I have a bad new from the supplier. Due to the bad weather condition,\n
-            their cargo truck couldn't arrive yet.\n
-            They said they can't help but increase the supplier price for today.\n\n''' +
-            CS.color.RED + "15" + CS.color.END + " % today.", 0.02)
+            '''    I have a bad new from the supplier. Due to the bad weather condition,\n
+    their cargo truck couldn't arrive yet.\n
+    They said they can't help but increase the supplier price for ''' +
+            CS.color.RED + "15" + CS.color.END + " % today.\n\n", 0.02)
         CC.assist_m.bad_news = True
+        CC.assist_m.tell_news()
+        sleep(1)
         enter_to_cont()
+        print("\n")
 
-    
-
-        
 
 
 def place_order():

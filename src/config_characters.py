@@ -41,8 +41,8 @@ class Venue:
             "Coffee" : 3,
             "Beer" : 5 }
         self.daily_staffs_wage = 1500
-        self.difficulty = 1 + (venue.days-1) * 0.1
-        self.price_adj = 1.15 if assist_m.bad_news is True else 1
+        self.difficulty = 1 + (self.days-1) * 0.1
+        self.price_adj = 1
 
     def days_addup(self):
         self.days += 1
@@ -99,6 +99,12 @@ class Assist_M(Staffs):
         CF.show_days()
         CF.bad_news()
         CF.place_order()
+    
+    def tell_news(self):
+        if self.bad_news is True:
+            venue.price_adj = 1.15
+        elif self.bad_news is False:
+            venue.price_adj = 1
 
 assist_m = Assist_M()
 
