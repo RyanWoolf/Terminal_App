@@ -31,7 +31,7 @@ class System:
         print(f"{self.game_menu}\n\n")
 
     def select(self):
-        print("\n1. New Game \n\n2. Exit\n\n")
+        print("\n1. Game start\n\n2. Exit\n\n")
         selection = CF.input_check()
         if selection == 1:
             self.game_mode = NewGame()

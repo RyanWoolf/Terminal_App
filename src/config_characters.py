@@ -73,7 +73,7 @@ class Customers:
         self.happiness_yesterday = self.happiness
 
     def add_customers(self):
-        self.customers_number = self.customers_number * venue.difficulty + 10
+        self.customers_number = 0.2 * self.customers_number * venue.difficulty + 10
 
 customers = Customers()
 

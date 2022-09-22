@@ -13,5 +13,3 @@ if __name__ == '__main__':
         CF.clear_screen()
         tprint("Good bye\n\n", font= "tarty3")
         print("Sorry to see you go. Hope to meet you soon again!\n\n")
-
-    
