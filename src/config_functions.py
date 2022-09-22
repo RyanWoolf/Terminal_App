@@ -52,8 +52,8 @@ def checking_rules():
                 CS.color.RED + "60" + CS.color.END + " %")
         print('''\nThe owner has decided to close down the venue. I guess it was our best.\n\n''')
         sleep(1)
-        print("\nDo you want to try again? \n\n")
-        CS.main_story.select()
+        enter_to_cont()
+        raise KeyboardInterrupt
     else:
         pass
 
@@ -189,12 +189,81 @@ def count_hours():
         else:
             print(f"\n  {time - 12} PM ...")
         sleep(1)
+        accidents()
     sleep(2)
     typing_animation("\n\nWe're closed now!", 0.02)
     sleep(1)
     typing_animation("\n\nI'll go get the daily report.\n\n", 0.02)
     sleep(1)
     enter_to_cont()
+
+def accidents():
+    chance = random.randint(0, 100)
+    if chance > 25: # back to 96 after test
+        long_wait()
+    elif 26 > chance > 20: #
+        broken_cups()
+    elif chance > 21: #
+        food_inspector()
+
+def food_inspector():
+    typing_animation(
+        '''\n Food & Safety inspector has visited. \n
+    He looked around the restaurant and said that We have some problems over the kitchen.\n''' +
+    CS.color.BLUE + "   1) Tell him they'll be fixed on the next time. " + CS.color.END + "or\n" +
+    CS.color.BLUE + "   2) Bribe him! What else can be worse than now? \n" + CS.color.END, 0.02)
+    sleep(1)
+    selection = input_check()
+    sleep(0.5)
+    if selection == 1:
+        print(
+            '''He went back after he left a warning. But I think our Customers heard what happened.\n
+        We have lost''' + CS.color.RED + " 5" + CS.color.END + "% Happiness. \n" )
+        CC.customers.happiness -= 5
+    elif selection == 2:
+        bribe = random.randint(0, 10)
+        if bribe > 7:
+            print(
+                '''Oh no! He's going to fine us even harder! Darn! Shouldn't have tried!\n
+            We have lost $''' + CS.color.RED + " 3000\n\n" + CS.color.END)
+            CC.venue.budgets -= 3000
+        elif bribe < 8:
+            print(
+                '''We bribed him with $ ''' + CS.color.RED + "1000\n" + CS.color.END +
+                "Hope he doesn't come back soon..")
+            CC.venue.budgets -= 1000
+
+def long_wait():
+    typing_animation(
+        '''\n There's some customers have complains because of long waits.\n
+    You can give the staffs to look after by \n\n''' +
+    CS.color.BLUE + "   1) offering them free extras, " + CS.color.END + "or\n" +
+    CS.color.BLUE + "   2) telling them we're doing our best\n\n" + CS.color.END, 0.02)
+    sleep(1)
+    selection = input_check()
+    sleep(0.5)
+    if selection == 1:
+        print(
+            '''We've offered them free extras. They're so much happy and grateful.\n
+        We have ''' + CS.color.GREEN + " +5" + CS.color.END + "% Happiness and spent $" + 
+        CS.color.RED + "150 " + CS.color.END + "from today's sales.\n\n")
+        CC.venue.budgets -= 150
+        CC.customers.happiness += 5
+    elif selection == 2:
+        print(
+            '''The customers didn't look mad but also happy.\n
+        We have lost''' + CS.color.RED + " 8" + CS.color.END + "% Happiness. \n\n" )
+        CC.customers.happiness -= 8
+
+
+def broken_cups():
+    typing_animation(
+        '''\n One of the staff has broken glasses.\n
+    Thankfully nobody hurt but we need to order new glasswares.\n
+    They're pretty luxury grade items. It'll cost $ ''' + CS.color.RED + "200" + CS.color.END +
+    " . Paid directly to the store.\n\n", 0.02)
+    CC.venue.budgets -= 200
+
 
 
 
@@ -217,7 +286,9 @@ def daily_report_scripts():
     gross_sales = CC.venue.budgets - CC.venue.budgets_yesterday
     actual_number = int(CC.customers.customers_number // 1)
     print(
-        f'''\nWe served {actual_number} customers through the service. Pretty big number.\n''')
+        "\nWe served " +
+        CS.color.YELLOW + f"{actual_number}" + CS.color.END +
+        ''' pax customers through the service. Pretty big number.\n''')
     print(
         "\nWe earned $ " + CS.color.YELLOW + f"{gross_sales}" + CS.color.END + " today," +
         "Current balance is $ " + CS.color.YELLOW + f"{CC.venue.budgets}" + CS.color.END)

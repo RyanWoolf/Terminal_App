@@ -47,11 +47,8 @@ class NewGame:
     def __init__(self):
         CF.clear_screen()
         CC.assist_m.greetings_00()
-        
 
 
 class ResumeGame:
     def __init__(self):
         pass
-
-# class SaveGame:

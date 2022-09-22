@@ -41,11 +41,12 @@ class Venue:
             "Coffee" : 3,
             "Beer" : 5 }
         self.daily_staffs_wage = 1500
-        self.difficulty = 1 + (self.days-1) * 0.1
+        self.difficulty = 1
         self.price_adj = 1
 
     def days_addup(self):
         self.days += 1
+        self.difficulty += (self.days-1) * 0.1
 
     def opening_venue(self):
         CF.good_morning()
