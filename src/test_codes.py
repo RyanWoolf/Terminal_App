@@ -23,7 +23,7 @@ for customer in range(customers):
         if beef_burger < 0:
             happyness -= 0.5
             beef_burger = 0
-    elif 30 < menu_choice <= 55: 
+    elif 30 < menu_choice <= 55:
         fish_chips -= 1
         if fish_chips < 0:
             happyness -= 0.5

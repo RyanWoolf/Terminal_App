@@ -41,6 +41,7 @@ class Venue:
             "Coffee" : 3,
             "Beer" : 5 }
         self.daily_staffs_wage = 1500
+        self.difficulty = 1 + (venue.days-1) * 0.1
 
     def days_addup(self):
         self.days += 1
@@ -50,7 +51,6 @@ class Venue:
         CF.show_days()
         CF.morning_briefing()
         CF.show_days()
-        self.yesterday_stocks = self.current_stocks
         CF.game_round()
         CF.count_hours()
         assist_m.daily_report()
@@ -60,6 +60,7 @@ class Venue:
         CF.closing_venue()
         CF.good_night()
         venue.days_addup()
+        customers.add_customers()
         venue.opening_venue()
 venue = Venue()
 
@@ -68,6 +69,9 @@ class Customers:
         self.customers_number = 350  # Level can be applied
         self.happiness = 100
         self.happiness_yesterday = self.happiness
+
+    def add_customers(self):
+        self.customers_number = self.customers_number * venue.difficulty + 10
 
 customers = Customers()
 

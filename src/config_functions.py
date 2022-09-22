@@ -129,11 +129,14 @@ def good_night():
 
 
 def copy_order_history():
-    pass
+    for item, stock in CC.venue.current_stocks.items():
+        CC.venue.yesterday_stocks.update({item : stock})
 
 
 
 def game_round():
+    copy_order_history()
+    difficulty = CC.venue.difficulty
     for customer in range(CC.customers.customers_number):
         food, drink = random.choice(CC.venue.list_foods), random.choice(CC.venue.list_drinks)
         CC.venue.current_stocks[food] -= 1
@@ -141,11 +144,11 @@ def game_round():
         CC.venue.budgets += CC.venue.stock_prices[food] + CC.venue.stock_prices[drink]
         CC.customers.happiness += 0.2
         if CC.venue.current_stocks[food] < 0:
-            CC.customers.happiness -= 0.6
+            CC.customers.happiness -= (0.6 * difficulty)
             CC.venue.current_stocks[food] = 0
             CC.venue.budgets -= CC.venue.stock_prices[food]
         if CC.venue.current_stocks[drink] < 0:
-            CC.customers.happiness -= 0.6
+            CC.customers.happiness -= (0.6 * difficulty)
             CC.venue.current_stocks[drink] = 0
             CC.venue.budgets -= CC.venue.stock_prices[drink]
         if CC.customers.happiness > 100:
@@ -188,7 +191,7 @@ def daily_report_scripts():
     sleep(1)
     gross_sales = CC.venue.budgets - CC.venue.budgets_yesterday
     print(
-        "We earned $ " + CS.color.YELLOW + f"{gross_sales}" + CS.color.END + " today," +
+        "\nWe earned $ " + CS.color.YELLOW + f"{gross_sales}" + CS.color.END + " today," +
         "Current balance is $ " + CS.color.YELLOW + f"{CC.venue.budgets}" + CS.color.END)
     CC.venue.budgets_yesterday = CC.venue.budgets
     sleep(1)
@@ -250,6 +253,10 @@ def closing_venue():
     sleep(1)
     enter_to_cont()
 
+# def bad_news():
+#     chance = random.randint(0, 100)
+#     if chance > 90:
+        
 
 
 def place_order():
@@ -261,10 +268,11 @@ def place_order():
             units = input(
                 name + " is $ " +
                 CS.color.BLUE + f"{CC.venue.supplier_prices[name]:.2f}" + CS.color.END +
-                f". How many units to order? Yeseterday : {CC.venue.yesterday_stocks[name]} ea / Today : ")
+                ". How many units to order? Yeseterday : " +
+                f"{CC.venue.yesterday_stocks[name]} ea / Today : ")
             try:
                 CC.venue.current_stocks.update({name : int(units)})
-                payments_due += int(units) * CC.venue.supplier_prices[name]
+                payments_due += int(units)*CC.venue.supplier_prices[name]
             except ValueError:
                 print(CS.color.RED + "Please enter the right number\n" + CS.color.END)
                 continue
@@ -279,7 +287,7 @@ def place_order():
         CS.color.YELLOW + f"{payments_due:.2f}" + CS.color.END +
         "and the daily wage for staffs is $ " +
         CS.color.YELLOW + f"{CC.venue.daily_staffs_wage:.2f}\n\n" + CS.color.END)
-    if payments_due + CC.venue.daily_staffs_wage > CC.venue.budgets:
+    if payments_due+CC.venue.daily_staffs_wage > CC.venue.budgets:
         print(CS.color.RED +
         "It's over your current balance. Please change the amount of order.\n\n" + CS.color.END)
         sleep(1)
@@ -292,7 +300,7 @@ def place_order():
             "\n\nYou have paid $ " +
             CS.color.BLUE + f"{payments_due + CC.venue.daily_staffs_wage:.2f}" + CS.color.END +
             " altogether.\n\n")
-        CC.venue.budgets -= (payments_due + CC.venue.daily_staffs_wage)
+        CC.venue.budgets -= (payments_due+CC.venue.daily_staffs_wage)
         sleep(2)
         enter_to_cont()
         CC.venue.closing_venue()
