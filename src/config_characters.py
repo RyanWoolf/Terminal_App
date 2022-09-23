@@ -10,6 +10,7 @@ class Venue:
         self.budgets = 10000
         self.budgets_yesterday = self.budgets
         self.days = 1
+        self.wastage = 0
         self.list_foods = [ # More same names mean more preferences
             "Beef burger", "Beef burger", "Beef burger",
             "Fish & chips", "Fish & chips",
@@ -55,6 +56,7 @@ class Venue:
         CF.show_days()
         CF.morning_briefing()
         CF.show_days()
+        CF.copy_order_history()
         CF.game_round()
         CF.count_hours()
         assist_m.daily_report()
@@ -103,8 +105,8 @@ class Assist_M():
         report of every round then decide to adjust the prices of back order"""
         CF.show_days()
         CF.daily_report_scripts()
-        CS.main_story.check_passed()
         CF.wastage_check()
+        CS.main_story.check_passed()
         CF.bad_news()
         assist_m.place_orders()
 

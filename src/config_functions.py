@@ -44,25 +44,27 @@ def input_check():
             return int(select)
         else:
             print(CS.color.RED + "Please enter the right number\n" + CS.color.END)
-        
 
 
 def checking_rules():
     """to decide that player passed or failed, used in System class and daily report"""
-    if CC.venue.budgets < 5000 or CC.customers.happiness < 60:
+    if CC.venue.budgets < 5000 or CC.customers.happiness < 60 or CC.venue.wastage > 25:
         show_days()
         tprint("\n\nGAME OVER\n\n", font = "tarty1")
         print(f"Failed on Day {CC.venue.days}\n\n\n")
         if CC.venue.budgets < 5000:
             print(
                 "I'm sorry, Our budget is now under $ " +
-                CS.color.RED + "5000." + CS.color.END)
+                CS.color.RED + "5000.\n" + CS.color.END)
         elif CC.customers.happiness < 60:
             print(
                 "I'm sorry, Our customers happiness is now under " +
-                CS.color.RED + "60" + CS.color.END + " %")
-        print('''\nThe owner has decided to close down the venue. I guess it was our best.\n\n''')
-        sleep(1)
+                CS.color.RED + "60" + CS.color.END + " %\n")
+        elif CC.venue.wastage > 25:
+            print(
+                "I'm sorry, Our wastage is now more than " +
+                CS.color.RED + "25" + CS.color.END + " %\n")
+        print('''\nI guess it was our best.\n\n''')
         enter_to_cont()
         raise KeyboardInterrupt
     else:
@@ -89,6 +91,16 @@ def colour_happiness(happiness):
         colour_warning2 = CS.color.RED
     return colour_warning2
 
+def colour_wastage(wastage):
+    """colour indicator for UI"""
+    if wastage >= 20:
+        colour_warning3 = CS.color.RED
+    elif 10 <= wastage < 20:
+        colour_warning3 = CS.color.YELLOW
+    else:
+        colour_warning3 = CS.color.GREEN
+    return colour_warning3
+
 def max_happiness(num):
     """if happiness is over 100, make it back to max 100"""
     if num > 100:
@@ -98,15 +110,20 @@ def max_happiness(num):
 def show_days():
     """Sub feature 1, for UI to display main variables to check"""
     clear_screen()
-    tprint(f"\n   DAY {CC.venue.days}\n\n", font = "tarty3")
+    tprint(f"\n         DAY {CC.venue.days}\n\n", font = "tarty3")
     balance = CC.venue.budgets_yesterday
     happiness = CC.customers.happiness_yesterday
+    wastage = CC.venue.wastage
     print(
         "Current Balance : $ " + colour_balance(balance) +
         f"{balance:.2f}" + CS.color.END +
         "  |  Customers Happiness : " + colour_happiness(happiness) +
-        f"{max_happiness(happiness):.2f}" + CS.color.END + " %")
-    print("----------------------------------------------------------------\n\n")
+        f"{max_happiness(happiness):.2f}" + CS.color.END + " %"
+        "  |  Stock Wastage : " + colour_wastage(wastage) +
+        f"{wastage}" + CS.color.END + " %")
+    print(
+        "--------------------------------------" +
+        "---------------------------------------------------\n\n")
     sleep(1)
 
 
@@ -132,8 +149,8 @@ def rule_explain():
     typing_animation(
         '''\nBut remember, You'll lose if you\n\n''' + CS.color.RED +
         '''    lose budget till $5000 or\n
-    lose Customers Satisfaction till 60%\n
-        ''' + CS.color.END, 0.02)
+    lose Customers Satisfaction till 60% or\n
+    Wastage is over 25%\n''' + CS.color.END, 0.02)
     sleep(0.5)
     typing_animation(
         '''\nI'm always here to assist you, give you tips and my opinions.
@@ -190,7 +207,6 @@ def copy_order_history():
 
 def game_round():
     """part of Main feature 1."""
-    copy_order_history()
     difficulty = CC.venue.difficulty
     customer = 0
     while customer < CC.customers.customers_number:
@@ -280,15 +296,15 @@ def long_wait():
     if selection == 1:
         print(
             '''\n    We've offered them free extras. They're so much happy and grateful.\n
-    We have ''' + CS.color.GREEN + " + 5 " + CS.color.END + "% Happiness and spent $" +
+    We have ''' + CS.color.GREEN + " + 3 " + CS.color.END + "% Happiness and spent $" +
         CS.color.RED + " 150 " + CS.color.END + "from today's sales.\n\n")
         CC.venue.budgets -= 150
-        CC.customers.happiness += 5
+        CC.customers.happiness += 3
     elif selection == 2:
         print(
             '''\n    The customers didn't look mad but also happy.\n
-    We have lost''' + CS.color.RED + " 8 " + CS.color.END + "% Happiness. \n\n" )
-        CC.customers.happiness -= 8
+    We have lost''' + CS.color.RED + " 4 " + CS.color.END + "% Happiness. \n\n" )
+        CC.customers.happiness -= 4
 
 
 def broken_cups():
@@ -334,10 +350,9 @@ def daily_report_scripts():
     happiness = CC.customers.happiness
     print(
         "\nAnd, Todays our customers happiness is " +
-        colour_happiness(happiness) + f"{max_happiness(happiness):.2f}" + CS.color.END + " %\n\n")
+        colour_happiness(happiness) + f"{max_happiness(happiness):.2f}" + CS.color.END + " %\n")
     CC.customers.happiness_yesterday = CC.customers.happiness
     sleep(2)
-    enter_to_cont()
 
 
 
@@ -350,23 +365,19 @@ def wastage_check():
     sleep(1)
     num_wastage = 0
     price_wastage = 0
+    price_stocks = 0
     for menu, stock in CC.venue.current_stocks.items():
         num_wastage += stock
+        price_stocks += CC.venue.stock_prices[menu] * CC.venue.yesterday_stocks[menu]
         price_wastage += CC.venue.stock_prices[menu] * stock
-    if num_wastage > 50:
-        typing_animation(
-            f"\nWe have {num_wastage} ea wastage today. That was $ " +
-            CS.color.BLUE + f"{price_wastage:.2f}" + CS.color.END +
-            " worths. \n\nI think we need to be careful on next stocks.", 0.02)
-    else:
-        typing_animation(
-            "\nWe have $ " +
-            CS.color.BLUE + f"{price_wastage:.2f}" + CS.color.END +
-            " worths of loss today.", 0.02)
+    percent_wastage = round(price_wastage / price_stocks * 100, 2)
+    CC.venue.wastage = percent_wastage
+    typing_animation(
+        "\nWe have " + colour_wastage(percent_wastage) + f"{percent_wastage}" + CS.color.END +
+        "% wastage today. That was $ " + CS.color.BLUE + f"{price_wastage:.2f}" + CS.color.END +
+        " worths.", 0.02)
     typing_animation(
         "\nWe don't use the stock again. We'll dicard them and replace to fresh ones.\n", 0.02)
-    sleep(1)
-    typing_animation("\nPlease let me know the stock orders for tomorrow service.\n", 0.02)
     sleep(1)
     enter_to_cont()
 
@@ -413,6 +424,8 @@ def percentage_priceup():
 
 def place_order():
     """part of main feature 3."""
+    typing_animation("\nPlease let me know the stock orders for tomorrow service.\n\n", 0.02)
+    sleep(0.5)
     payments_due = 0
     adj = CC.venue.price_adj
     if CC.venue.days % 7 == 0: # paying rent fee setup
@@ -420,8 +433,8 @@ def place_order():
     We have paid $''' + CS.color.RED + "8500" + CS.color.END +
     ". It'lle be added to the payment due.\n\n")
         payments_due += 8500
-    print("Order list : \n\n") 
-    sleep(1)
+    print("Order list : \n\n")
+    sleep(0.5)
     for name in CC.venue.current_stocks.keys():
         while True: # Order amount compare with last one
             num_taken = input(
@@ -429,9 +442,9 @@ def place_order():
                 CS.color.BLUE + f"{adj * CC.venue.supplier_prices[name]:.2f}" + CS.color.END +
                 ". How many units to order? Yeseterday : " +
                 f"{CC.venue.yesterday_stocks[name]} ea / Today : ")
-            try: # doesn't need certain numbers. any numbers but letters or negative numbers
+            try:        # doesn't need certain numbers. any numbers but letters or negative numbers
                 units = int(num_taken)
-                if units < 0: # negative numbers
+                if units < 0:       # negative numbers
                     raise ValueError
                 CC.venue.current_stocks.update({name : int(units)})
                 payments_due += int(units) * CC.venue.supplier_prices[name] * adj
