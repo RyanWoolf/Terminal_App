@@ -1,1 +1,4 @@
-print(int("-10"))
+from config_system import Color
+
+
+print(Color.GREEN + "Hello" + Color.END)

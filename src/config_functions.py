@@ -1,21 +1,32 @@
+"""import all the packages that needed. This module is the main frame of the app"""
 import sys
 import os
 import random
 from time import sleep
-from art import *
+from art import tprint
 import config_system as CS
 import config_characters as CC
 
 
 def clear_screen():
+    """to clear the screen to keep the infos on top or else"""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def enter_to_cont():
+    """prevent too fast stream of the app. Wait until player check or read"""
     input("Please enter to continue ")
 
 
+def show_logo():
+    """Show the main logo at beginning"""
+    tprint("\nLionWolf  Haus", font= "tarty1")
+    tprint("\nRestaurant Tycoon\n\n", font= "tarty2")
+    print(CS.color.BOLD + "Select one from the following\n" + CS.color.END)
+
+
 def typing_animation(text, speed):
+    """many time used in most of scripts. makes them look like typing. Check the Reference * """
     for letter in text:
         sleep(speed)
         sys.stdout.write(letter)
@@ -23,7 +34,8 @@ def typing_animation(text, speed):
     print("")
 
 
-def input_check():   # The reason I didn't use try/except is what i need for return is only 1 or 2
+def input_check():
+    """The reason I didn't use try/except is what i need for return is only 1 or 2"""
     select_right = False
     while select_right is False:
         select = input("Select : ")
@@ -36,6 +48,7 @@ def input_check():   # The reason I didn't use try/except is what i need for ret
 
 
 def checking_rules():
+    """to decide that player passed or failed, used in System class and daily report"""
     if CC.venue.budgets < 5000 or CC.customers.happiness < 60:
         show_days()
         tprint("\n\nGAME OVER\n\n", font = "tarty1")
@@ -56,6 +69,7 @@ def checking_rules():
         pass
 
 def colour_balance(balance):
+    """colour indicator for UI"""
     if balance >= 10000:
         colour_warning1 = CS.color.GREEN
     elif 7000 <= balance < 10000:
@@ -65,6 +79,7 @@ def colour_balance(balance):
     return colour_warning1
 
 def colour_happiness(happiness):
+    """colour indicator for UI"""
     if happiness >= 85:
         colour_warning2 = CS.color.GREEN
         max_happiness(happiness)
@@ -75,11 +90,13 @@ def colour_happiness(happiness):
     return colour_warning2
 
 def max_happiness(num):
+    """if happiness is over 100, make it back to max 100"""
     if num > 100:
         num = 100
     return num
 
 def show_days():
+    """Sub feature 1, for UI to display main variables to check"""
     clear_screen()
     tprint(f"\n   DAY {CC.venue.days}\n\n", font = "tarty3")
     balance = CC.venue.budgets_yesterday
@@ -94,6 +111,7 @@ def show_days():
 
 
 def rule_explain():
+    """only used one time at the begging of game. rule explained"""
     tprint("Welcome", font= "tarty1")
     sleep(1)
     typing_animation(
@@ -132,6 +150,7 @@ def rule_explain():
 
 
 def good_morning():
+    """good morning logo"""
     show_days()
     tprint("Good Morning", font = "tarty1")
     sleep(2)
@@ -139,6 +158,7 @@ def good_morning():
 
 
 def morning_briefing():
+    """stock report before round"""
     if CC.venue.days == 1:
         typing_animation(
         '''Luckily We have received urgent delivery from the supplier early morning.
@@ -154,6 +174,7 @@ def morning_briefing():
 
 
 def good_night():
+    """good night logo"""
     show_days()
     tprint("Good Night\n\n", font = "tarty1")
     sleep(1)
@@ -161,15 +182,18 @@ def good_night():
 
 
 def copy_order_history():
+    """used to compare last days order and now"""
     for item, stock in CC.venue.current_stocks.items():
         CC.venue.yesterday_stocks.update({item : stock})
 
 
 
 def game_round():
+    """part of Main feature 1."""
     copy_order_history()
     difficulty = CC.venue.difficulty
-    for customer in range(int(CC.customers.customers_number // 1)):
+    customer = 0
+    while customer < CC.customers.customers_number:
         food, drink = random.choice(CC.venue.list_foods), random.choice(CC.venue.list_drinks)
         CC.venue.current_stocks[food] -= 1
         CC.venue.current_stocks[drink] -= 1
@@ -183,11 +207,12 @@ def game_round():
             CC.customers.happiness -= (0.6 * difficulty)
             CC.venue.current_stocks[drink] = 0
             CC.venue.budgets -= CC.venue.stock_prices[drink]
-        if CC.customers.happiness > 100:
-            CC.customers.happiness = 100
-
+        CC.customers.happiness = max_happiness(CC.customers.happiness)
+        customer += 1
+    # for customer in range(int(CC.customers.customers_number // 1)):
 
 def count_hours():
+    """setup to make it look like game_round function is excuting through time"""
     for time in range(9, 16):
         if time < 12:
             print(f"\n  {time} AM ...")
@@ -196,7 +221,7 @@ def count_hours():
         else:
             print(f"\n  {time - 12} PM ...")
         sleep(1)
-        accidents()
+        accidents() # Unexpected accidents might happen
     sleep(1)
     typing_animation("\n\nWe're closed now!", 0.02)
     sleep(1)
@@ -205,6 +230,7 @@ def count_hours():
     enter_to_cont()
 
 def accidents():
+    """part of Main feature 1. decide a chance that accident happens"""
     chance = random.randint(0, 100)
     if chance > 98:
         long_wait()
@@ -214,6 +240,7 @@ def accidents():
         food_inspector()
 
 def food_inspector():
+    """one of the unexpected accidents"""
     typing_animation(
         '''\n    Food & Safety inspector has visited. \n
     He looked around the restaurant and said that We have some problems over the kitchen.\n\n''' +
@@ -241,6 +268,7 @@ def food_inspector():
             CC.venue.budgets -= 1000
 
 def long_wait():
+    """one of the unexpected accidents"""
     typing_animation(
         '''\n    There's some customers have complains because of long waits.\n
     You can give the staffs to look after by \n\n''' +
@@ -264,6 +292,7 @@ def long_wait():
 
 
 def broken_cups():
+    """one of the unexpected accidents"""
     typing_animation(
         '''\n    One of the staff has broken glasses.\n
     Thankfully nobody hurt but we need to order new glasswares.\n
@@ -275,6 +304,7 @@ def broken_cups():
 
 
 def daily_report_scripts():
+    """part of Main feature 2"""
     print("Daily Report : ")
     sleep(1)
     if CC.customers.happiness > 90:
@@ -313,6 +343,7 @@ def daily_report_scripts():
 
 
 def wastage_check():
+    """tell how many left from yesterdays stock order"""
     typing_animation("\n\nChecking the stocks left ...\n\n", 0.02)
     sleep(1)
     print_current_stocks()
@@ -342,6 +373,7 @@ def wastage_check():
 
 
 def print_current_stocks():
+    """show what we currently have"""
     for name, stock in CC.venue.current_stocks.items():
         print(f"    {name} : {stock} ea\n")
         sleep(0.2)
@@ -349,6 +381,7 @@ def print_current_stocks():
 
 
 def closing_venue():
+    """end of a round."""
     show_days()
     typing_animation("\nThe orders have been placed. They'll be deliverd over the night.", 0.02)
     sleep(0.5)
@@ -357,6 +390,7 @@ def closing_venue():
     enter_to_cont()
 
 def bad_news():
+    """price adjustment chance setup."""
     chance = random.randint(0, 100)
     if chance > 86:
         CC.assist_m.bad_news = True
@@ -372,36 +406,38 @@ def bad_news():
         print("\n")
 
 def percentage_priceup():
+    """pick up the percentage"""
     percentage = round(random.uniform(0.10, 0.25), 2)
     return percentage
 
 
 def place_order():
+    """part of main feature 3."""
     payments_due = 0
     adj = CC.venue.price_adj
-    if CC.venue.days % 7 == 0:
+    if CC.venue.days % 7 == 0: # paying rent fee setup
         print('''\n    Every 7 days, We have to pay the rent to the realestate agent.\n
     We have paid $''' + CS.color.RED + "8500" + CS.color.END +
     ". It'lle be added to the payment due.\n\n")
         payments_due += 8500
-    print("Order list : \n\n")
+    print("Order list : \n\n") 
     sleep(1)
     for name in CC.venue.current_stocks.keys():
-        while True:
+        while True: # Order amount compare with last one
             num_taken = input(
                 name + " is $ " +
                 CS.color.BLUE + f"{adj * CC.venue.supplier_prices[name]:.2f}" + CS.color.END +
                 ". How many units to order? Yeseterday : " +
                 f"{CC.venue.yesterday_stocks[name]} ea / Today : ")
-            try:
+            try: # doesn't need certain numbers. any numbers but letters or negative numbers
                 units = int(num_taken)
-                if units < 0:
+                if units < 0: # negative numbers
                     raise ValueError
                 CC.venue.current_stocks.update({name : int(units)})
                 payments_due += int(units) * CC.venue.supplier_prices[name] * adj
             except ValueError:
                 print(CS.color.RED + "Please enter the right number\n" + CS.color.END)
-                continue
+                continue # pass the below and go back to ask again
             finally:
                 print("")
             break
@@ -432,5 +468,12 @@ def place_order():
 
 
 def lose_customers():
+    """number of customer control setup"""
     if CC.venue.days % 5 == 0:
         CC.customers.customers_number *= (90 - CC.venue.days)/100
+
+def game_over():
+    """the page that player will see if they lose or exit via ctrl + c"""
+    clear_screen()
+    tprint("\n\nGood bye\n\n", font= "tarty1")
+    print("Sorry to see you go. Hope to meet you soon again!\n\n")

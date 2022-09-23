@@ -1,16 +1,16 @@
-from art import *
-from time import sleep
+"""Bring all the functions using through all modules"""
 import config_system as CS
 import config_functions as CF
 
 
 class Venue:
+    """container for infos such as money, level, days menu and price etc"""
     def __init__(self):
         self.level = 1
         self.budgets = 10000
         self.budgets_yesterday = self.budgets
         self.days = 1
-        self.list_foods = [
+        self.list_foods = [ # More same names mean more preferences
             "Beef burger", "Beef burger", "Beef burger",
             "Fish & chips", "Fish & chips",
             "Pizza", "Pizza"]
@@ -45,10 +45,12 @@ class Venue:
         self.price_adj = 1
 
     def days_addup(self):
+        """day counts and control level of difficulty in game after every round"""
         self.days += 1
         self.difficulty = 1 + (self.days-1) * 0.1
 
     def opening_venue(self):
+        """Main feature 1"""
         CF.good_morning()
         CF.show_days()
         CF.morning_briefing()
@@ -58,6 +60,7 @@ class Venue:
         assist_m.daily_report()
 
     def closing_venue(self):
+        """update the budget and number of customers"""
         self.budgets_yesterday = self.budgets
         CF.closing_venue()
         CF.good_night()
@@ -68,33 +71,36 @@ class Venue:
 venue = Venue()
 
 class Customers:
+    """main variable, customer number is changing every round"""
     def __init__(self):
         self.customers_number = 350
         self.happiness = 100
         self.happiness_yesterday = self.happiness
 
     def add_customers(self):
+        """more customers on each days"""
         self.customers_number += 0.03 * self.customers_number * venue.difficulty + 5
 
     def lose_customers(self):
+        """To control the number of customers if too many"""
         CF.lose_customers()
 
 customers = Customers()
 
-class Staffs:
-    pass
-staffs = Staffs()
-
-class Assist_M(Staffs):
+class Assist_M():
+    """helper or guide of the game"""
     def __init__(self):
         self.bad_news = False
         self.percent_priceup = 0
 
-    def greetings_00(self):
+    def greetings(self):
+        """the rule is explained through here before the first round"""
         CF.rule_explain()
         venue.opening_venue()
 
     def daily_report(self):
+        """Main feature 2
+        report of every round then decide to adjust the prices of back order"""
         CF.show_days()
         CF.daily_report_scripts()
         CS.main_story.check_passed()
@@ -103,11 +109,13 @@ class Assist_M(Staffs):
         assist_m.place_orders()
 
     def place_orders(self):
+        """Main feature 3"""
         CF.show_days()
         CF.place_order()
         venue.closing_venue()
 
     def tell_news(self):
+        """roll the dice whether price up and how much"""
         self.percent_priceup = CF.percentage_priceup()
         if self.bad_news is True:
             venue.price_adj = 1 + self.percent_priceup
