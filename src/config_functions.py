@@ -23,18 +23,16 @@ def typing_animation(text, speed):
     print("")
 
 
-def input_check():
+def input_check():   # The reason I didn't use try/except is what i need for return is only 1 or 2
     select_right = False
     while select_right is False:
         select = input("Select : ")
-        if select == "1":
-            select_right = True
-            return int(select)
-        elif select == "2":
+        if select == "1" or select == "2":
             select_right = True
             return int(select)
         else:
             print(CS.color.RED + "Please enter the right number\n" + CS.color.END)
+        
 
 
 def checking_rules():
@@ -62,18 +60,17 @@ def colour_balance(balance):
         colour_warning1 = CS.color.GREEN
     elif 7000 <= balance < 10000:
         colour_warning1 = CS.color.YELLOW
-    elif balance < 7000:
+    else:
         colour_warning1 = CS.color.RED
     return colour_warning1
 
 def colour_happiness(happiness):
     if happiness >= 85:
         colour_warning2 = CS.color.GREEN
-        if happiness > 100:
-            happiness = 100
+        max_happiness(happiness)
     elif 70 <= happiness < 85:
         colour_warning2 = CS.color.YELLOW
-    elif happiness < 70:
+    else:
         colour_warning2 = CS.color.RED
     return colour_warning2
 
@@ -300,7 +297,7 @@ def daily_report_scripts():
         CS.color.YELLOW + f"{actual_number}" + CS.color.END +
         ''' pax customers through the service. Pretty big number.\n''')
     print(
-        "\nWe earned $ " + CS.color.YELLOW + f"{gross_sales}" + CS.color.END + " today," +
+        "We earned $ " + CS.color.YELLOW + f"{gross_sales}" + CS.color.END + " today," +
         "Current balance is $ " + CS.color.YELLOW + f"{CC.venue.budgets}" + CS.color.END)
     CC.venue.budgets_yesterday = CC.venue.budgets
     sleep(1)
@@ -330,7 +327,7 @@ def wastage_check():
             f"\nWe have {num_wastage} ea wastage today. That was $ " +
             CS.color.BLUE + f"{price_wastage:.2f}" + CS.color.END +
             " worths. \n\nI think we need to be careful on next stocks.", 0.02)
-    elif num_wastage < 50:
+    else:
         typing_animation(
             "\nWe have $ " +
             CS.color.BLUE + f"{price_wastage:.2f}" + CS.color.END +
@@ -391,14 +388,17 @@ def place_order():
     sleep(1)
     for name in CC.venue.current_stocks.keys():
         while True:
-            units = input(
+            num_taken = input(
                 name + " is $ " +
-                CS.color.BLUE + f"{adj*CC.venue.supplier_prices[name]:.2f}" + CS.color.END +
+                CS.color.BLUE + f"{adj * CC.venue.supplier_prices[name]:.2f}" + CS.color.END +
                 ". How many units to order? Yeseterday : " +
                 f"{CC.venue.yesterday_stocks[name]} ea / Today : ")
             try:
+                units = int(num_taken)
+                if units < 0:
+                    raise ValueError
                 CC.venue.current_stocks.update({name : int(units)})
-                payments_due += int(units)*CC.venue.supplier_prices[name]*adj
+                payments_due += int(units) * CC.venue.supplier_prices[name] * adj
             except ValueError:
                 print(CS.color.RED + "Please enter the right number\n" + CS.color.END)
                 continue
