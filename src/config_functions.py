@@ -209,9 +209,9 @@ def count_hours():
 
 def accidents():
     chance = random.randint(0, 100)
-    if chance > 97:
+    if chance > 98:
         long_wait()
-    elif 71 > chance > 67:
+    elif 71 > chance > 68:
         broken_cups()
     elif 3 < chance < 5:
         food_inspector()
@@ -361,7 +361,7 @@ def closing_venue():
 
 def bad_news():
     chance = random.randint(0, 100)
-    if chance > 90:
+    if chance > 86:
         CC.assist_m.bad_news = True
         CC.assist_m.tell_news()
         percentage = CC.assist_m.percent_priceup * 100
@@ -409,7 +409,7 @@ def place_order():
     print(
         "\n\nThe total payments due is $ " +
         CS.color.YELLOW + f"{payments_due:.2f}" + CS.color.END +
-        "and the daily wage for staffs is $ " +
+        " and the daily wage for staffs is $ " +
         CS.color.YELLOW + f"{CC.venue.daily_staffs_wage:.2f}\n\n" + CS.color.END)
     if payments_due+CC.venue.daily_staffs_wage > CC.venue.budgets:
         print(CS.color.RED +
@@ -433,4 +433,4 @@ def place_order():
 
 def lose_customers():
     if CC.venue.days % 5 == 0:
-        CC.customers.customers_number *= 0.9
+        CC.customers.customers_number *= (90 - CC.venue.days)/100

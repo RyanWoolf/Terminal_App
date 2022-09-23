@@ -52,7 +52,6 @@ class Venue:
         CF.good_morning()
         CF.show_days()
         CF.morning_briefing()
-        
         CF.show_days()
         CF.game_round()
         CF.count_hours()

@@ -8,7 +8,7 @@ if __name__ == '__main__':
     try:
         CS.main_story.greetings()
         CS.main_story.select()
-    
+
     except KeyboardInterrupt:
         CF.clear_screen()
         tprint("\n\nGood bye\n\n", font= "tarty1")
