@@ -57,8 +57,25 @@ def checking_rules():
     else:
         pass
 
+def colour_balance(balance):
+    if balance >= 10000:
+        colour_warning1 = CS.color.GREEN
+    elif 7000 <= balance < 10000:
+        colour_warning1 = CS.color.YELLOW
+    elif balance < 7000:
+        colour_warning1 = CS.color.RED
+    return colour_warning1
 
-
+def colour_happiness(happiness):
+    if happiness >= 85:
+        colour_warning2 = CS.color.GREEN
+        if happiness > 100:
+            happiness = 100
+    elif 70 <= happiness < 85:
+        colour_warning2 = CS.color.YELLOW
+    elif happiness < 70:
+        colour_warning2 = CS.color.RED
+    return colour_warning2
 
 
 def show_days():
@@ -66,21 +83,11 @@ def show_days():
     tprint(f"\n   DAY {CC.venue.days}\n\n", font = "tarty3")
     balance = CC.venue.budgets_yesterday
     happiness = CC.customers.happiness_yesterday
-    if balance >= 10000:
-        colour_warning1 = CS.color.GREEN
-    elif 7000 <= balance < 10000:
-        colour_warning1 = CS.color.YELLOW
-    elif balance < 7000:
-        colour_warning1 = CS.color.RED
-    if happiness >= 85:
-        colour_warning2 = CS.color.GREEN
-    elif 70 <= happiness < 85:
-        colour_warning2 = CS.color.YELLOW
-    elif happiness < 70:
-        colour_warning2 = CS.color.RED
     print(
-        "Current Balance : $ " + colour_warning1 + f"{balance:.2f}" + CS.color.END +
-        "  |  Customers Happiness : " + colour_warning2 + f"{happiness:.2f}" + CS.color.END + " %")
+        "Current Balance : $ " + colour_balance(balance) +
+        f"{balance:.2f}" + CS.color.END +
+        "  |  Customers Happiness : " + colour_happiness(happiness) +
+        f"{happiness:.2f}" + CS.color.END + " %")
     print("----------------------------------------------------------------\n\n")
     sleep(1)
 
@@ -199,25 +206,25 @@ def count_hours():
 
 def accidents():
     chance = random.randint(0, 100)
-    if chance > 70: # back to 96 after test
+    if chance > 97:
         long_wait()
-    elif 71 > chance > 50: #
+    elif 71 > chance > 67:
         broken_cups()
-    elif chance < 51: #
+    elif chance < 2:
         food_inspector()
 
 def food_inspector():
     typing_animation(
         '''\n    Food & Safety inspector has visited. \n
     He looked around the restaurant and said that We have some problems over the kitchen.\n\n''' +
-    CS.color.BLUE + "       1) Tell him they'll be fixed on the next time. " + CS.color.END + "or\n" +
+    CS.color.BLUE + "       1) Tell him they'll be fixed today." + CS.color.END + "or\n" +
     CS.color.BLUE + "       2) Bribe him! What else can be worse than now? \n" + CS.color.END, 0.02)
     sleep(1)
     selection = input_check()
     sleep(0.5)
     if selection == 1:
         print(
-            '''\n    He went back after he left a warning. But I think our Customers heard what happened.\n
+            '''\n   He went back after a warning. But I think our Customers heard what happened.\n
     We have lost''' + CS.color.RED + " 5 " + CS.color.END + "% Happiness. \n" )
         CC.customers.happiness -= 5
     elif selection == 2:
@@ -251,7 +258,7 @@ def long_wait():
         CC.customers.happiness += 5
     elif selection == 2:
         print(
-            '''\n   The customers didn't look mad but also happy.\n
+            '''\n    The customers didn't look mad but also happy.\n
     We have lost''' + CS.color.RED + " 8 " + CS.color.END + "% Happiness. \n\n" )
         CC.customers.happiness -= 8
 
@@ -294,17 +301,13 @@ def daily_report_scripts():
         "Current balance is $ " + CS.color.YELLOW + f"{CC.venue.budgets}" + CS.color.END)
     CC.venue.budgets_yesterday = CC.venue.budgets
     sleep(1)
-    if CC.customers.happiness >= 85:
-        colour_warning2 = CS.color.GREEN
-    elif 70 <= CC.customers.happiness < 85:
-        colour_warning2 = CS.color.YELLOW
-    elif CC.customers.happiness < 70:
-        colour_warning2 = CS.color.RED
+    happiness = CC.customers.happiness
     print(
         "\nAnd, Todays our customers happiness is " +
-        colour_warning2 + f"{CC.customers.happiness:.2f}" + CS.color.END + " %\n")
+        colour_happiness(happiness) + f"{CC.customers.happiness:.2f}" + CS.color.END + " %\n")
     CC.customers.happiness_yesterday = CC.customers.happiness
     sleep(2)
+
 
 
 
@@ -413,6 +416,5 @@ def place_order():
         CC.venue.budgets -= (payments_due+CC.venue.daily_staffs_wage)
         sleep(2)
         enter_to_cont()
-        CC.venue.closing_venue()
     elif selection == 2:
         CC.assist_m.place_orders()

@@ -46,7 +46,7 @@ class Venue:
 
     def days_addup(self):
         self.days += 1
-        self.difficulty += (self.days-1) * 0.1
+        self.difficulty = 1 + (self.days-1) * 0.1
 
     def opening_venue(self):
         CF.good_morning()
@@ -73,7 +73,7 @@ class Customers:
         self.happiness_yesterday = self.happiness
 
     def add_customers(self):
-        self.customers_number = 0.2 * self.customers_number * venue.difficulty + 10
+        self.customers_number += 0.2 * self.customers_number * venue.difficulty + 10
 
 customers = Customers()
 
@@ -101,7 +101,7 @@ class Assist_M(Staffs):
         CF.show_days()
         CF.bad_news()
         CF.place_order()
-        CS.main_story.check_passed()
+        venue.closing_venue()
 
     def tell_news(self):
         if self.bad_news is True:
