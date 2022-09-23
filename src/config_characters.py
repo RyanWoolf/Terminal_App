@@ -52,6 +52,7 @@ class Venue:
         CF.good_morning()
         CF.show_days()
         CF.morning_briefing()
+        
         CF.show_days()
         CF.game_round()
         CF.count_hours()
@@ -63,6 +64,7 @@ class Venue:
         CF.good_night()
         venue.days_addup()
         customers.add_customers()
+        customers.lose_customers() # Sometimes customers leave with no reason
         venue.opening_venue()
 venue = Venue()
 
@@ -73,18 +75,21 @@ class Customers:
         self.happiness_yesterday = self.happiness
 
     def add_customers(self):
-        self.customers_number += 0.2 * self.customers_number * venue.difficulty + 10
+        self.customers_number += 0.03 * self.customers_number * venue.difficulty + 5
+
+    def lose_customers(self):
+        CF.lose_customers()
 
 customers = Customers()
 
 class Staffs:
     pass
-
 staffs = Staffs()
 
 class Assist_M(Staffs):
     def __init__(self):
         self.bad_news = False
+        self.percent_priceup = 0
 
     def greetings_00(self):
         CF.rule_explain()
@@ -95,17 +100,18 @@ class Assist_M(Staffs):
         CF.daily_report_scripts()
         CS.main_story.check_passed()
         CF.wastage_check()
+        CF.bad_news()
         assist_m.place_orders()
 
     def place_orders(self):
         CF.show_days()
-        CF.bad_news()
         CF.place_order()
         venue.closing_venue()
 
     def tell_news(self):
+        self.percent_priceup = CF.percentage_priceup()
         if self.bad_news is True:
-            venue.price_adj = 1.15
+            venue.price_adj = 1 + self.percent_priceup
         elif self.bad_news is False:
             venue.price_adj = 1
 

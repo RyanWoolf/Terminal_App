@@ -77,6 +77,10 @@ def colour_happiness(happiness):
         colour_warning2 = CS.color.RED
     return colour_warning2
 
+def max_happiness(num):
+    if num > 100:
+        num = 100
+    return num
 
 def show_days():
     clear_screen()
@@ -87,7 +91,7 @@ def show_days():
         "Current Balance : $ " + colour_balance(balance) +
         f"{balance:.2f}" + CS.color.END +
         "  |  Customers Happiness : " + colour_happiness(happiness) +
-        f"{happiness:.2f}" + CS.color.END + " %")
+        f"{max_happiness(happiness):.2f}" + CS.color.END + " %")
     print("----------------------------------------------------------------\n\n")
     sleep(1)
 
@@ -145,9 +149,8 @@ def morning_briefing():
     CC.assist_m.bad_news = False
     CC.assist_m.tell_news()
     typing_animation("\nToday, We got \n\n", 0.02)
-    sleep(0.5)
     print_current_stocks()
-    sleep(1)
+    sleep(0.5)
     typing_animation("\n\nWe're ready to open.\n\n", 0.02)
     enter_to_cont()
 
@@ -197,7 +200,7 @@ def count_hours():
             print(f"\n  {time - 12} PM ...")
         sleep(1)
         accidents()
-    sleep(2)
+    sleep(1)
     typing_animation("\n\nWe're closed now!", 0.02)
     sleep(1)
     typing_animation("\n\nI'll go get the daily report.\n\n", 0.02)
@@ -210,7 +213,7 @@ def accidents():
         long_wait()
     elif 71 > chance > 67:
         broken_cups()
-    elif chance < 2:
+    elif 3 < chance < 5:
         food_inspector()
 
 def food_inspector():
@@ -268,7 +271,7 @@ def broken_cups():
         '''\n    One of the staff has broken glasses.\n
     Thankfully nobody hurt but we need to order new glasswares.\n
     They're pretty luxury grade items. It'll cost $ ''' + CS.color.RED + "200" + CS.color.END +
-    " . Paid directly to the store.\n\n", 0.02)
+    ", Paid directly to the store.\n\n", 0.02)
     CC.venue.budgets -= 200
 
 
@@ -304,9 +307,10 @@ def daily_report_scripts():
     happiness = CC.customers.happiness
     print(
         "\nAnd, Todays our customers happiness is " +
-        colour_happiness(happiness) + f"{CC.customers.happiness:.2f}" + CS.color.END + " %\n")
+        colour_happiness(happiness) + f"{max_happiness(happiness):.2f}" + CS.color.END + " %\n\n")
     CC.customers.happiness_yesterday = CC.customers.happiness
     sleep(2)
+    enter_to_cont()
 
 
 
@@ -349,31 +353,40 @@ def print_current_stocks():
 
 def closing_venue():
     show_days()
-    typing_animation("\n\nThe orders have been placed. They'll be deliverd over the night.", 0.02)
-    sleep(1)
+    typing_animation("\nThe orders have been placed. They'll be deliverd over the night.", 0.02)
+    sleep(0.5)
     typing_animation("\n\nI'll see you tomorrow. :) \n\n", 0.02)
-    sleep(1)
+    sleep(0.5)
     enter_to_cont()
 
 def bad_news():
     chance = random.randint(0, 100)
     if chance > 90:
-        typing_animation(
-            '''    I have a bad new from the supplier. Due to the bad weather condition,\n
-    their cargo truck couldn't arrive yet.\n
-    They said they can't help but increase the supplier price for ''' +
-            CS.color.RED + "15" + CS.color.END + " % today.\n\n", 0.02)
         CC.assist_m.bad_news = True
         CC.assist_m.tell_news()
+        percentage = CC.assist_m.percent_priceup * 100
+        typing_animation(
+            '''\n\n    I have a bad new from the supplier. Due to the bad weather condition,\n
+    their cargo truck couldn't arrive yet.\n
+    They said they can't help but increase the supplier price for ''' +
+            CS.color.RED + f"{percentage}" + CS.color.END + " % today.\n\n", 0.02)
         sleep(1)
         enter_to_cont()
         print("\n")
 
+def percentage_priceup():
+    percentage = round(random.uniform(0.10, 0.25), 2)
+    return percentage
 
 
 def place_order():
     payments_due = 0
     adj = CC.venue.price_adj
+    if CC.venue.days % 7 == 0:
+        print('''\n    Every 7 days, We have to pay the rent to the realestate agent.\n
+    We have paid $''' + CS.color.RED + "8500" + CS.color.END +
+    ". It'lle be added to the payment due.\n\n")
+        payments_due += 8500
     print("Order list : \n\n")
     sleep(1)
     for name in CC.venue.current_stocks.keys():
@@ -393,8 +406,6 @@ def place_order():
                 print("")
             break
     sleep(0.5)
-    print("\n\nThe below is order for tomorrow.\n\n")
-    print_current_stocks()
     print(
         "\n\nThe total payments due is $ " +
         CS.color.YELLOW + f"{payments_due:.2f}" + CS.color.END +
@@ -414,7 +425,12 @@ def place_order():
             CS.color.BLUE + f"{payments_due + CC.venue.daily_staffs_wage:.2f}" + CS.color.END +
             " altogether.\n\n")
         CC.venue.budgets -= (payments_due+CC.venue.daily_staffs_wage)
-        sleep(2)
+        sleep(1)
         enter_to_cont()
     elif selection == 2:
         CC.assist_m.place_orders()
+
+
+def lose_customers():
+    if CC.venue.days % 5 == 0:
+        CC.customers.customers_number *= 0.9

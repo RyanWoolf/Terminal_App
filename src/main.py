@@ -11,5 +11,5 @@ if __name__ == '__main__':
     
     except KeyboardInterrupt:
         CF.clear_screen()
-        tprint("Good bye\n\n", font= "tarty3")
+        tprint("\n\nGood bye\n\n", font= "tarty1")
         print("Sorry to see you go. Hope to meet you soon again!\n\n")
