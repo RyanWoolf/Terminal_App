@@ -225,7 +225,6 @@ def game_round():
             CC.venue.budgets -= CC.venue.stock_prices[drink]
         CC.customers.happiness = max_happiness(CC.customers.happiness)
         customer += 1
-    # for customer in range(int(CC.customers.customers_number // 1)):
 
 def count_hours():
     """setup to make it look like game_round function is excuting through time"""
@@ -246,7 +245,7 @@ def count_hours():
     enter_to_cont()
 
 def accidents():
-    """part of Main feature 1. decide a chance that accident happens"""
+    """part of Main feature 2. decide a chance that accident happens"""
     chance = random.randint(0, 100)
     if chance > 98:
         long_wait()
@@ -320,7 +319,7 @@ def broken_cups():
 
 
 def daily_report_scripts():
-    """part of Main feature 2"""
+    """part of Main feature 3"""
     print("Daily Report : ")
     sleep(1)
     if CC.customers.happiness > 90:
