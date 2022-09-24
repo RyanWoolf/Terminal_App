@@ -38,10 +38,10 @@ PEP 8 from [here](https://peps.python.org/pep-0008/)
 
 ## Install and Run guide
 
-    Please visit [here](./docs/help.md)
+Please visit [here](./docs/help.md)
 
 ## Referenced source code
 
-### **Art v5.7** , ASCII Art Library for Python, from [here](https://pypi.org/project/art/https://pypi.org/project/art/)
-### **Typing_animation** function from [here](https://stackoverflow.com/questions/20302331/typing-effect-in-python)
-### **Text colour** class from [here](https://www.delftstack.com/ko/howto/python/python-bold-text/)
+**Art v5.7** , ASCII Art Library for Python, from [here](https://pypi.org/project/art/https://pypi.org/project/art/)
+**Typing_animation** function from [here](https://stackoverflow.com/questions/20302331/typing-effect-in-python)
+**Text colour** class from [here](https://www.delftstack.com/ko/howto/python/python-bold-text/)
