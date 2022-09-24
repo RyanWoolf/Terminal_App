@@ -25,6 +25,13 @@ Player will have to prepare the service to look after certain number of customer
 Try your managing skills in LionWolf Haus as many days as you can and check how many days you can keep the restaurant having profits!
 
 
+
+## Install and Run guide
+
+Please visit [here](./docs/help.md)
+
+
+
 ## Functionality and features
 
 1. [Main] Trading - Selling products to customers and receive the payment
@@ -33,10 +40,10 @@ Try your managing skills in LionWolf Haus as many days as you can and check how 
 
 
 Alpha and Omega of this game. This is the major main feature that makes the entire concept work. 
-Stocks dict consists of key is the name of product, value is the actual number of stock that player ordered last day will be traded with money which is stored in Venues instance attribute and Happiness which in in Customers instance attribute. In real world, Customer has money and pay to the venue, but in the program, where is the money coming from is not important. Simply Customer(class) has self attribute "Happiness" getting high unless the stock is run out. 
+Stocks dict consists of key which is the name of product, value which is the actual number of stock that player ordered last day and they will be traded with money which is stored in Venues instance attribute and Happiness which in in Customers instance attribute. In real world, Customer has money and pay to the venue, but in the program, where is the money coming from is not important. Simply Customer(instance) has only attribute "Happiness" getting high unless the stock is run out. 
 
 
-Based on "while" loop to have each customer choose randomly of food and drink via `random.choice()` method then followed by update the number of stock from the current stock dict and add each prices of items to the attribute "budgets" in Venue instance then Customers get more happiness. 
+Based on "while" loop to have each customer choose randomly of food and drink via `random.choice()` method then followed by update the number of stock from the current stock dict and add each prices of items found in another dict of item and price pairs to the attribute "budgets" in Venue instance then Customers get more happiness. 
 But there is a problem. What if the stock is run out? It'd be similar situation like in the real world, Customers will get money back and lose Happiness. Also the stock cannot be negative numbers so it goes back to `int 0`. 
 
 At the second line from the bottom, Function that will control the max number of Happiness because Happiness is a number described in percentage, so it can't be more than 100.
@@ -69,7 +76,28 @@ Placing stock order is very similar mechanism as Trading. You store a number fro
 The second error handling is via while loop. In this case though, We need only 2 result back which is yes(1) or no(2). The loop will keep happening until the condition is True which makes by checking the input result is "1" or "2". This time we don't need to check whether it's string, float or even negative numbers because we want to see that player enter 1 or 2.
 
 
+
 ## Implementation Plan
+
+
+
+## Testing codes
+
+|:Feature:|:Role:|:Expected Outcome:|:Actual Outcome:|:Comment:|
+|---------|------|-------|------|------|
+|Clear screen|Clear screen in terminal to show outcomes from the top freshly|Does clear the screen|As expected|  |
+|Typing animation|Print string one letter by letter. Take 2 parameters. Str for content and float for speed|Successful animation|As expected|Reference attached|
+|input check|Prevent ValueError before happens|Nothing but return 1 or 2|As expected| |
+|show days|GUI display on top|Show days with Budget, Happiness and Wastage rates with proper colour|Show proper infos|Happiness gets higher than 100% occasionally|Fix needed|
+|show days| same | same | As expected | added function changing the number to 100 if it's above|
+|**game round**|take customers number, loop from 0 till the max number of customers, pick random choice from lists, gain the price of pick then append to a variable, take away 1 each from stock dict & add happiness if succeed, if not money back & lose happiness|Updated current stock dict, Happiness and budget|Too much fair select from menu|Add same name for representing preparation in the menu list|
+|**Accidents**|unexpected events to select choice bringing different result|Have less than 10% chance|Happens too many times|Balance fix needed, **Done**|
+|**Daily report**|check the current stock after game round. Show how much money earned, How much happiness is|Exact matching number with the result of game round|As Expected|Coloured number need to be applied|
+|**Place order**|take inputs from player to order stocks and multiply by the supplier prices then append to a variable, take it away from budget and get back new budget, **input check twice**|No error occurs on inputs|No error as expected|Used try/except/raise statement to avoid error and also while loop error handling|
+|**Game difficulty**|a variable multiplied on customer numbers and losing happiness in game round after each day. further days will have high rates to lose happiness and more customer number|each day, it'd have about 20-30 people more| 80 people added after each day |Fix needed|
+|**Game difficulty**|same|same|20-30 people added|Fixed by adding another float number|
+|**Wastage check**|compare ordered stock and left stock, calculate the rate|Exact number| As Expected|  |
+
 
 
 
@@ -78,9 +106,7 @@ The second error handling is via while loop. In this case though, We need only 2
 
 PEP 8 from [here](https://peps.python.org/pep-0008/)
 
-## Install and Run guide
 
-Please visit [here](./docs/help.md)
 
 ## Referenced source code
 

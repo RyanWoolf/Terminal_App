@@ -27,9 +27,20 @@ Step5. Type "bash LW_haus.sh" and Enter
 - If you're asked to install Python3, visit [here](https://www.python.org/downloads/) to install.
 - Then try Step5 again
          
-Step6. Enjoy
+Step5.1. Be noticed that Step5 through executing "bash LW_haus.sh" command line, Any independency will be installed in Virtual environment.
+It means it's not installed in your OS system but virtual location.
+
+Step6. Enjoy!
 
 ### Once you opened it, You can start from **Step3** to run the file again.
+
+------------------------------------------------------------------------------------------------
+
+### System and Hardware Requirements
+
+1. Python3
+2. Pypi package Art v5.7 - installed automatically through `LW_haus.sh`
+3. Keyboard and mouse
 
 ------------------------------------------------------------------------------------------------
 
