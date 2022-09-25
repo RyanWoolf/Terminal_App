@@ -24,25 +24,29 @@ chmod +x LW_haus.sh
 sleep 1
 echo "Permission granted"
 sleep 1
-echo "Checking the system .. Standby "
+echo "Checking Python3 .. Standby "
 count
 if [[ -x "$(command -v python3 --version)" ]]
 then
     echo "Ready to launch"
-    source ../.venv/bin/activate
-    if [[ -x "$(command -v python3 -m art list)" ]]
-    then
+    FILE="./.venv"
+    if [ -d "$FILE" ];then
+        echo "Activating venv"
+        source .venv/bin/activate
         echo "Initiating the program"
         count
         python3 main.py
-        deactivate
     else
+        python3 -m venv .venv
+        echo "Created virtual evironment"
+        count
+        echo "Activate venv"
+        source .venv/bin/activate
         echo "Install packages .."
         python3 -m pip install art==5.7
         echo "Initiating the program"
         count
         python3 main.py
-        deactivate
     fi
 else
     echo "

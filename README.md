@@ -3,7 +3,7 @@
 
 ----------------------------------------------------------------
 
-## [Video Presentation](https://vimeo.com/manage/videos/743882385)
+## [Video Presentation](https://vimeo.com/753463011)
 
 ## [GitHub Repo](https://github.com/RyanWoolf/ChanghaLee_T1A3)
 
