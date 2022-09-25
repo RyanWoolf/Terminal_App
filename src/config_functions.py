@@ -342,7 +342,7 @@ def daily_report_scripts():
         CS.color.YELLOW + f"{actual_number}" + CS.color.END +
         ''' pax customers through the service. Pretty big number.\n''')
     print(
-        "We earned $ " + CS.color.YELLOW + f"{gross_sales}" + CS.color.END + " today," +
+        "We earned $ " + CS.color.YELLOW + f"{gross_sales}" + CS.color.END + " today, " +
         "Current balance is $ " + CS.color.YELLOW + f"{CC.venue.budgets}" + CS.color.END)
     CC.venue.budgets_yesterday = CC.venue.budgets
     sleep(1)

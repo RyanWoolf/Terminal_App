@@ -1,5 +1,5 @@
-# T1A3 Terminal Application 
-## by Chang-Ha Lee
+### T1A3 Terminal Application 
+#### by Chang-Ha Lee
 
 ----------------------------------------------------------------
 
@@ -9,16 +9,18 @@
 
 ## [Trello workspace](https://trello.com/invite/b/G1Wv3lMa/8b65415f531a27a81e285678057ff906/lionwolf-haus-project)
 
+
+## [Install and Run guide](./docs/help.md)
+
 ----------------------------------------------------------------
 
-# LionWolf Haus 
-### - Restaurant Tycoon -
+# ** LionWolf Haus **   ### - Restaurant Tycoon -
 
 
 
-## Introduction
+## **Introduction**
 
-LionWolf haus - Restaurant tycoon - is a bash terminal-based game running a restaurant through Stock order, selling and earning, maintaining Customer Happiness. It's inspired by my childhood game "**Fastfood**" from **gamania**. Basically Similar game play style but has more detail features such as choosing the location of the venue getting different number pax of customers or upgrade the building of the venue. 
+LionWolf haus - Restaurant tycoon - is a terminal-based business simulation game running a restaurant through ordering stocks, selling products and earning money, maintaining Customer Happiness. It's inspired by my childhood game "**Fastfood**" from **gamania**. Basically Similar game play style but has more detail features such as choosing the location of the venue getting different number pax of customers or upgrade the building of the venue. 
 
 Player will have to prepare the service to look after certain number of customers changing each day by maintaining the venue budget, Wastage rate and Customer Happiness. Unexpected accidents might occur through business operations, Player can choose what to do for fixing problems and will see the result of choice. It takes users proper input to take numbers to order or selection of choice and then program will calculate how much payment due you'd have to pay or what result you'd get from your choice such as higher or lower Customer Happiness, Budget that the venue owns, Wastage rate and even a fine. If you can't manage the venue following the rules, you'll lose. 
 
@@ -26,13 +28,10 @@ Try your managing skills in LionWolf Haus as many days as you can and check how 
 
 
 
-## Install and Run guide
-
-Please visit [here](./docs/help.md)
 
 
 
-## Functionality and features
+## **Functionality and features**
 
 1. [Main] Trading - Selling products to customers and receive the payment
 
@@ -77,41 +76,82 @@ The second error handling is via while loop. In this case though, We need only 2
 
 
 
-## Implementation Plan
+## **Implementation Plan**
+
+1. Outline of the game
+
+![flowchart](docs/flowchart.png)
+
+This stage is about planning how the entire program will flow. No need details yet. 
+As it's based on results from user input, it doesn't have to be too much complex flow.
 
 
+2. Detail plan for implement through Trello
+   
+![plan](docs/plan.png)
 
-## Testing codes
+Divide the main features into smaller parts with deadlines
+
+Build each parts then test
+
+Connect small parts to each each other
+
+Connect the main features to each other
+
+Test the stream flows as planned then bug fixes
+
+Confirm with the client*
+
+Feedback then update the request*
+
+Test and bug fixes*
+
+Final confirm with the client*
+
+Release
+
+*As the client is myself, it's done with short noticed
+
+
+## **Testing codes**
 
 |:Feature:|:Role:|:Expected Outcome:|:Actual Outcome:|:Comment:|
 |---------|------|-------|------|------|
-|Clear screen|Clear screen in terminal to show outcomes from the top freshly|Does clear the screen|As expected|  |
-|Typing animation|Print string one letter by letter. Take 2 parameters. Str for content and float for speed|Successful animation|As expected|Reference attached|
+|Clear screen|Clear screen in terminal to show outcomes from the top freshly|Does clear the screen|**As expected**|  |
+|Typing animation|Print string one letter by letter. Take 2 parameters. Str for content and float for speed|Successful animation|**As expected**|Reference attached|
 |input check|Prevent ValueError before happens|Nothing but return 1 or 2|As expected| |
-|show days|GUI display on top|Show days with Budget, Happiness and Wastage rates with proper colour|Show proper infos|Happiness gets higher than 100% occasionally|Fix needed|
-|show days| same | same | As expected | added function changing the number to 100 if it's above|
-|**game round**|take customers number, loop from 0 till the max number of customers, pick random choice from lists, gain the price of pick then append to a variable, take away 1 each from stock dict & add happiness if succeed, if not money back & lose happiness|Updated current stock dict, Happiness and budget|Too much fair select from menu|Add same name for representing preparation in the menu list|
-|**Accidents**|unexpected events to select choice bringing different result|Have less than 10% chance|Happens too many times|Balance fix needed, **Done**|
-|**Daily report**|check the current stock after game round. Show how much money earned, How much happiness is|Exact matching number with the result of game round|As Expected|Coloured number need to be applied|
-|**Place order**|take inputs from player to order stocks and multiply by the supplier prices then append to a variable, take it away from budget and get back new budget, **input check twice**|No error occurs on inputs|No error as expected|Used try/except/raise statement to avoid error and also while loop error handling|
-|**Game difficulty**|a variable multiplied on customer numbers and losing happiness in game round after each day. further days will have high rates to lose happiness and more customer number|each day, it'd have about 20-30 people more| 80 people added after each day |Fix needed|
-|**Game difficulty**|same|same|20-30 people added|Fixed by adding another float number|
-|**Wastage check**|compare ordered stock and left stock, calculate the rate|Exact number| As Expected|  |
+|show days|GUI display on top. Show days with Budget, Happiness and Wastage rates with proper colour|Show proper infos|Happiness gets higher than 100% occasionally|    |
+|show days| same | same | **As expected** | added function changing the number to 100 if it's above|
+|**game round**|take customers number, loop from 0 till the max number of customers, pick random choice from lists, gain the price of pick then append to a variable, take away 1 each from stock dict & add happiness if succeed, if not money back & lose happiness|Updated current stock dict, Happiness and budget|Too much fair selecting from menu|Add same name for representing preparation in the menu list. **FIXED**|
+|**Accidents**|unexpected events to select choice bringing different result|Have less than 10% chance|Happens too many times|Balance fix needed, **FIXED**|
+|**Daily report**|check the current stock after game round. Show how much money earned, How much happiness is|Exact matching number with the result of game round|**As Expected**|Coloured number need to be applied|
+|**Place order**|take inputs from player to order stocks and multiply by the supplier prices then append to a variable, take it away from budget and get back new budget, **input check twice**|No error occurs on inputs|**As Expected**|Used try/except/raise statement to avoid error and also while loop error handling|
+|**Game difficulty**|a variable multiplied on customer numbers and losing happiness in game round after each day. further days will have high rates to lose happiness and more customer number|each day, it'd have about 20-30 people more| 80 people added after each day |Fix needed, **FIXED**|
+|**Game difficulty**|same|same|**As Expected**|Fixed by adding another float number|
+|**Wastage check**|compare ordered stock and left stock, calculate the rate|Exact number| **As Expected**|  |
 
 
+---------------------------------------------------
 
+## Package used
 
-
+1. art v5.7
+2. random
+3. sys
+4. os
+5. time
+   
+----------------------------------------------------------------
 ## Coding style guide line
 
 PEP 8 from [here](https://peps.python.org/pep-0008/)
 
-
+----------------------------------------------------------------
 
 ## Referenced source code
 
-**Art v5.7** , ASCII Art Library for Python, from [here](https://pypi.org/project/art/https://pypi.org/project/art/)
+**art v5.7** , ASCII Art Library for Python, from [here](https://pypi.org/project/art/https://pypi.org/project/art/)
 
-**Typing_animation** function from [here](https://stackoverflow.com/questions/20302331/typing-effect-in-python)
+**typing_animation** function from [here](https://stackoverflow.com/questions/20302331/typing-effect-in-python)
 
-**Text colour** class from [here](https://www.delftstack.com/ko/howto/python/python-bold-text/)
+**text colour** class from [here](https://www.delftstack.com/ko/howto/python/python-bold-text/)

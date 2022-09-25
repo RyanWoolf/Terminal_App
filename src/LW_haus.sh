@@ -19,18 +19,13 @@ But before we start, Let's check whether your system is ready
 
 "
 sleep 1
-
 echo "Giving permission to execute LW_haus.sh "
 chmod +x LW_haus.sh
-count
-echo "Permission granted"
-
 sleep 1
-
+echo "Permission granted"
+sleep 1
 echo "Checking the system .. Standby "
 count
-
-
 if [[ -x "$(command -v python3 --version)" ]]
 then
     echo "Ready to launch"
@@ -42,9 +37,10 @@ then
         python3 main.py
         deactivate
     else
+        echo "Install packages .."
+        python3 -m pip install art==5.7
         echo "Initiating the program"
         count
-        python3 -m pip install art==5.7
         python3 main.py
         deactivate
     fi

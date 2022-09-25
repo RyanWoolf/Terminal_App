@@ -1,9 +1,11 @@
-## Install and Run Guide
+## **Install and Run Guide**
 
 ### This docs is to explain how to install and run the file.
 ### Please follow each steps **after you read the each line of steps first.**
 
+
 ------------------------------------------------------------------------------------------------
+
 
 ### **Install and Run**
 
@@ -34,15 +36,19 @@ Step6. Enjoy!
 
 ### Once you opened it, You can start from **Step3** to run the file again.
 
+
 ------------------------------------------------------------------------------------------------
 
-### System and Hardware Requirements
+
+### **System and Hardware Requirements**
 
 1. Python3
-2. Pypi package Art v5.7 - installed automatically through `LW_haus.sh`
+2. Pypi package Art v5.7 - **installed automatically through `LW_haus.sh`**
 3. Keyboard and mouse
 
+
 ------------------------------------------------------------------------------------------------
+
 
 ### **Troubleshooting**
 
