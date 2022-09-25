@@ -215,16 +215,18 @@ def game_round():
         CC.venue.current_stocks[drink] -= 1
         CC.venue.budgets += CC.venue.stock_prices[food] + CC.venue.stock_prices[drink]
         CC.customers.happiness += 0.2
-        if CC.venue.current_stocks[food] < 0:
-            CC.customers.happiness -= (0.6 * difficulty)
-            CC.venue.current_stocks[food] = 0
-            CC.venue.budgets -= CC.venue.stock_prices[food]
-        if CC.venue.current_stocks[drink] < 0:
-            CC.customers.happiness -= (0.6 * difficulty)
-            CC.venue.current_stocks[drink] = 0
-            CC.venue.budgets -= CC.venue.stock_prices[drink]
+        out_of_stock(food)
+        out_of_stock(drink)
         CC.customers.happiness = max_happiness(CC.customers.happiness)
         customer += 1
+
+def out_of_stock(item):
+    """if out of stock, execute this"""
+    difficulty = CC.venue.difficulty * 0.6
+    if CC.venue.current_stocks[item] < 0:
+        CC.customers.happiness -= (difficulty)
+        CC.venue.current_stocks[item] = 0
+        CC.venue.budgets -= CC.venue.stock_prices[item]
 
 def count_hours():
     """setup to make it look like game_round function is excuting through time"""
