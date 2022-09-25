@@ -207,7 +207,6 @@ def copy_order_history():
 
 def game_round():
     """part of Main feature 1."""
-    difficulty = CC.venue.difficulty
     customer = 0
     while customer < CC.customers.customers_number:
         food, drink = random.choice(CC.venue.list_foods), random.choice(CC.venue.list_drinks)

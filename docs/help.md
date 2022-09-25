@@ -16,8 +16,8 @@ Step2. Extract the zip file in current directory and move into the directory
 Step3.  
 1) For Windows users
 - Shift + Right click on the folder "src" then click "Open Command Prompt here"
-             
-2) For Mac users
+
+1) For Mac users
 - Run "Terminal" (Command + Space then search Terminal or from Launchpad),
 - write "cd " (be noticed there's a space after cd) in Terminal
 - Drag the folder "src" to the terminal and press Enter or return key
